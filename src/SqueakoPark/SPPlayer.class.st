@@ -8,7 +8,8 @@ Class {
 		'jumpKey',
 		'platform',
 		'carried',
-		'game'
+		'game',
+		'sprite'
 	],
 	#category : #'SqueakoPark-Core'
 }
@@ -139,14 +140,21 @@ SPPlayer >> gravity [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:06'
+	#'squeak_changestamp' : 'OB 12/5/2024 18:16'
 }
 SPPlayer >> initialize [
 	super initialize.
 	self
 		platform: nil;
 		carried: OrderedCollection new;
-		verticalVelocity: 0.
+		verticalVelocity: 0;
+		loadSprite.
+	self addMorph: self sprite.
+	self sprite
+		scaleFactor: 2;
+		setUniformDelay: 200.
+	self extent: self sprite topRendererOrSelf extent.
+	self sprite center: self center.
 ]
 
 {
@@ -199,6 +207,15 @@ SPPlayer >> leftKey: anObject [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'OB 12/5/2024 18:05'
+}
+SPPlayer >> loadSprite [
+	self sprite: ((GitAssetLoader for: 'SqueakoPark') basePath: 'assets';
+	loadAnimatedImageMorph: 'squeako_character.gif').
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'mad 12/5/2024 17:58'
 }
 SPPlayer >> moveBy: aPoint [
@@ -237,6 +254,22 @@ SPPlayer >> rightKey [
 }
 SPPlayer >> rightKey: anObject [
 	rightKey := anObject
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'OB 12/5/2024 18:02'
+}
+SPPlayer >> sprite [
+	^ sprite
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'OB 12/5/2024 18:02'
+}
+SPPlayer >> sprite: anObject [
+	sprite := anObject
 ]
 
 {
