@@ -47,6 +47,16 @@ SPPlayer >> carry: anObject [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 18:27'
+}
+SPPlayer >> clearPlatform [
+	self platform ifNil: [^ self].
+	self platform uncarry: self.
+	self platform: nil.
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'mad 12/5/2024 18:09'
 }
 SPPlayer >> collideWith: aMorph velocity: aPoint [
@@ -55,13 +65,13 @@ SPPlayer >> collideWith: aMorph velocity: aPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:08'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:30'
 }
 SPPlayer >> collideWithImmovable: aMorph velocity: aPoint [
 	aPoint y > 0 ifTrue: [self bottom: aMorph top. self verticalVelocity: 0. self standOn: aMorph].
 	aPoint y < 0 ifTrue: [self top: aMorph bottom. self verticalVelocity: 0].
 	aPoint x < 0 ifTrue: [self left: aMorph right].
-	aPoint x > 0 ifTrue: [self right: aMorph right].
+	aPoint x > 0 ifTrue: [self right: aMorph left].
 ]
 
 {
@@ -82,18 +92,20 @@ SPPlayer >> collideWithWall: aWall velocity: aPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:57'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:29'
 }
 SPPlayer >> doMovement [
 	| horizontalVelocity |
 	horizontalVelocity := (({self leftKey -> -1. self rightKey -> 1}
 								select: [:each | self isKeyPressed: each key]
 								thenCollect: #value) copyWith: 0) sum.
-	self moveBy: horizontalVelocity @ 0.
+	self moveBy: horizontalVelocity * self horizontalSpeed @ 0.
 	(self canJump and: [self isKeyPressed: self jumpKey])
 		ifTrue: [self verticalVelocity: self jumpVelocity].
-	self verticalVelocity: self verticalVelocity + self gravity.
-	self moveBy: 0 @ self verticalVelocity.
+	self
+		clearPlatform;
+		verticalVelocity: self verticalVelocity + self gravity;
+		moveBy: 0 @ self verticalVelocity.
 ]
 
 {
@@ -106,11 +118,11 @@ SPPlayer >> game [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 18:04'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:21'
 }
 SPPlayer >> game: anObject [
 	game := anObject.
-	self gmCollisionHandler addMorph: self.
+	self gmCollisionHandler addCollisionMorph: self.
 ]
 
 {
@@ -131,22 +143,31 @@ SPPlayer >> gmKeyHandler [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:57'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:28'
 }
 SPPlayer >> gravity [
+	^ 2
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 18:30'
+}
+SPPlayer >> horizontalSpeed [
 	^ 10
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:06'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:24'
 }
 SPPlayer >> initialize [
 	super initialize.
 	self
 		platform: nil;
 		carried: OrderedCollection new;
-		verticalVelocity: 0.
+		verticalVelocity: 0;
+		gmCollisionDetectionStrategy: GMRectangleCollisionDetectionShape new.
 ]
 
 {
@@ -175,10 +196,10 @@ SPPlayer >> jumpKey: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:57'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:30'
 }
 SPPlayer >> jumpVelocity [
-	^ -30
+	^ -20
 ]
 
 {
@@ -255,6 +276,14 @@ SPPlayer >> standOn: anObject [
 }
 SPPlayer >> step [
 	self doMovement.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 18:25'
+}
+SPPlayer >> stepTime [
+	^ 1
 ]
 
 {
