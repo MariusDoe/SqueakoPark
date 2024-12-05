@@ -19,3 +19,11 @@ SPWall >> carry: anObject [
 SPWall >> collideWith: anObject velocity: aPoint [
 	^ anObject collideWithWall: self velocity: aPoint
 ]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 18:09'
+}
+SPWall >> uncarry: anObject [
+	"do nothing"
+]

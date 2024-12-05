@@ -47,21 +47,37 @@ SPPlayer >> carry: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:47'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:09'
 }
-SPPlayer >> collideWith: anObject velocity: aPoint [
-	^ anObject collideWithPlayer: self velocity: aPoint
+SPPlayer >> collideWith: aMorph velocity: aPoint [
+	^ aMorph collideWithPlayer: self velocity: aPoint
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:49'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:08'
+}
+SPPlayer >> collideWithImmovable: aMorph velocity: aPoint [
+	aPoint y > 0 ifTrue: [self bottom: aMorph top. self verticalVelocity: 0. self standOn: aMorph].
+	aPoint y < 0 ifTrue: [self top: aMorph bottom. self verticalVelocity: 0].
+	aPoint x < 0 ifTrue: [self left: aMorph right].
+	aPoint x > 0 ifTrue: [self right: aMorph right].
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 18:08'
 }
 SPPlayer >> collideWithPlayer: aPlayer velocity: aPoint [
-	aPoint y > 0 ifTrue: [self standOn: aPlayer].
-	aPoint y < 0 ifTrue: [self top: aPlayer bottom].
-	aPoint x < 0 ifTrue: [self left: aPlayer right].
-	aPoint x > 0 ifTrue: [self right: aPlayer right].
+	self collideWithImmovable: aPlayer velocity: aPoint.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 18:09'
+}
+SPPlayer >> collideWithWall: aWall velocity: aPoint [
+	self collideWithImmovable: aWall velocity: aPoint.
 ]
 
 {
@@ -78,6 +94,23 @@ SPPlayer >> doMovement [
 		ifTrue: [self verticalVelocity: self jumpVelocity].
 	self verticalVelocity: self verticalVelocity + self gravity.
 	self moveBy: 0 @ self verticalVelocity.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 18:03'
+}
+SPPlayer >> game [
+	^ game
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 18:04'
+}
+SPPlayer >> game: anObject [
+	game := anObject.
+	self gmCollisionHandler addMorph: self.
 ]
 
 {
@@ -106,11 +139,14 @@ SPPlayer >> gravity [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:53'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:06'
 }
 SPPlayer >> initialize [
 	super initialize.
-	self carried: OrderedCollection new.
+	self
+		platform: nil;
+		carried: OrderedCollection new;
+		verticalVelocity: 0.
 ]
 
 {
@@ -189,14 +225,6 @@ SPPlayer >> platform: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:42'
-}
-SPPlayer >> position: aPoint [
-	self floatPosition: aPoint.
-]
-
-{
-	#category : #accessing,
 	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
 }
 SPPlayer >> rightKey [
@@ -227,6 +255,14 @@ SPPlayer >> standOn: anObject [
 }
 SPPlayer >> step [
 	self doMovement.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 18:09'
+}
+SPPlayer >> uncarry: aMorph [
+	self carried remove: aMorph ifAbsent: [].
 ]
 
 {
