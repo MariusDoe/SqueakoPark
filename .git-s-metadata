@@ -1,6 +1,15 @@
 GSMetadata {
 	#version : 1,
 	#mappers : [
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'SqueakoPark'
+			},
+			#path : FSAbsolutePath [
+				'src'
+			]
+		},
 		GSAnimationMapper {
 			#version : 1,
 			#path : FSAbsolutePath [
