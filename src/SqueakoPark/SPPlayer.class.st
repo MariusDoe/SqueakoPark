@@ -1,14 +1,14 @@
 Class {
 	#name : #SPPlayer,
-	#superclass : #Morph,
+	#superclass : #SPCollisionMorph,
 	#instVars : [
+		'key',
 		'verticalVelocity',
 		'leftKey',
 		'rightKey',
 		'jumpKey',
 		'platform',
 		'carried',
-		'game',
 		'sprite'
 	],
 	#category : #'SqueakoPark-Core'
@@ -77,6 +77,15 @@ SPPlayer >> collideWithImmovable: aMorph velocity: aPoint [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 19:05'
+}
+SPPlayer >> collideWithKey: aKey velocity: aPoint [
+	aKey holder: self.
+	self key: aKey.
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'mad 12/5/2024 18:08'
 }
 SPPlayer >> collideWithPlayer: aPlayer velocity: aPoint [
@@ -93,7 +102,7 @@ SPPlayer >> collideWithWall: aWall velocity: aPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:29'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:58'
 }
 SPPlayer >> doMovement [
 	| horizontalVelocity |
@@ -107,31 +116,6 @@ SPPlayer >> doMovement [
 		clearPlatform;
 		verticalVelocity: self verticalVelocity + self gravity;
 		moveBy: 0 @ self verticalVelocity.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 18:03'
-}
-SPPlayer >> game [
-	^ game
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 18:21'
-}
-SPPlayer >> game: anObject [
-	game := anObject.
-	self gmCollisionHandler addCollisionMorph: self.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:58'
-}
-SPPlayer >> gmCollisionHandler [
-	^ self game gmCollisionHandler
 ]
 
 {
@@ -160,22 +144,15 @@ SPPlayer >> horizontalSpeed [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:33'
+	#'squeak_changestamp' : 'mad 12/5/2024 19:07'
 }
 SPPlayer >> initialize [
 	super initialize.
 	self
+		color: Color transparent;
 		platform: nil;
 		carried: OrderedCollection new;
-		verticalVelocity: 0;
-		gmCollisionDetectionStrategy: GMRectangleCollisionDetectionShape new;
-		loadSprite.
-	self addMorph: self sprite.
-	self sprite
-		scaleFactor: 2;
-		setUniformDelay: 200.
-	self extent: self sprite topRendererOrSelf extent.
-	self sprite center: self center.
+		verticalVelocity: 0.
 ]
 
 {
@@ -212,6 +189,22 @@ SPPlayer >> jumpVelocity [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 19:05'
+}
+SPPlayer >> key [
+	^ key
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 19:05'
+}
+SPPlayer >> key: anObject [
+	key := anObject
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
 }
 SPPlayer >> leftKey [
@@ -228,11 +221,18 @@ SPPlayer >> leftKey: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'OB 12/5/2024 18:05'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:57'
 }
-SPPlayer >> loadSprite [
-	self sprite: ((GitAssetLoader for: 'SqueakoPark') basePath: 'assets';
-	loadAnimatedImageMorph: 'squeako_character.gif').
+SPPlayer >> loadSprite: angleNumber [
+	self sprite: ((GitAssetLoader for: 'SqueakoPark') loadAnimatedImageMorph: 'assets/squeako_character.gif').
+	self sprite
+		images: (self sprite images collect: [:form |
+					(form magnifyBy: 2) collectColors: [:color |
+						Color h: color hue + angleNumber s: color saturation v: color luminance alpha: color alpha]]);
+		image: self sprite images first copy;
+		setUniformDelay: 200.
+	self extent: self sprite extent.
+	self addMorphCentered: self sprite.
 ]
 
 {
@@ -279,7 +279,7 @@ SPPlayer >> rightKey: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'OB 12/5/2024 18:02'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:58'
 }
 SPPlayer >> sprite [
 	^ sprite
@@ -287,7 +287,7 @@ SPPlayer >> sprite [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'OB 12/5/2024 18:02'
+	#'squeak_changestamp' : 'mad 12/5/2024 18:58'
 }
 SPPlayer >> sprite: anObject [
 	sprite := anObject
