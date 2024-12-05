@@ -7,10 +7,43 @@ Class {
 		'rightKey',
 		'jumpKey',
 		'platform',
-		'carried'
+		'carried',
+		'game'
 	],
 	#category : #'SqueakoPark-Core'
 }
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 17:56'
+}
+SPPlayer >> canJump [
+	^ self platform notNil and: [self carried isEmpty]
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
+}
+SPPlayer >> carried [
+	^ carried
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
+}
+SPPlayer >> carried: anObject [
+	carried := anObject
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 17:55'
+}
+SPPlayer >> carry: anObject [
+	self carried add: anObject.
+]
 
 {
 	#category : #'as yet unclassified',
@@ -33,7 +66,7 @@ SPPlayer >> collideWithPlayer: aPlayer velocity: aPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:40'
+	#'squeak_changestamp' : 'mad 12/5/2024 17:57'
 }
 SPPlayer >> doMovement [
 	| horizontalVelocity |
@@ -41,9 +74,51 @@ SPPlayer >> doMovement [
 								select: [:each | self isKeyPressed: each key]
 								thenCollect: #value) copyWith: 0) sum.
 	self moveBy: horizontalVelocity @ 0.
-	(self isOnGround and: [self isKeyPressed: self jumpKey])
+	(self canJump and: [self isKeyPressed: self jumpKey])
 		ifTrue: [self verticalVelocity: self jumpVelocity].
+	self verticalVelocity: self verticalVelocity + self gravity.
 	self moveBy: 0 @ self verticalVelocity.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 17:58'
+}
+SPPlayer >> gmCollisionHandler [
+	^ self game gmCollisionHandler
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 17:59'
+}
+SPPlayer >> gmKeyHandler [
+	^ self game gmKeyHandler
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 17:57'
+}
+SPPlayer >> gravity [
+	^ 10
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 17:53'
+}
+SPPlayer >> initialize [
+	super initialize.
+	self carried: OrderedCollection new.
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/5/2024 17:55'
+}
+SPPlayer >> isKeyPressed: aCharacter [
+	^ self gmKeyHandler gmIsKeyPressed: aCharacter
 ]
 
 {
@@ -64,10 +139,10 @@ SPPlayer >> jumpKey: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
+	#'squeak_changestamp' : 'mad 12/5/2024 17:57'
 }
 SPPlayer >> jumpVelocity [
-	^ 100
+	^ -30
 ]
 
 {
@@ -88,11 +163,28 @@ SPPlayer >> leftKey: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:50'
+	#'squeak_changestamp' : 'mad 12/5/2024 17:58'
 }
 SPPlayer >> moveBy: aPoint [
 	self position: self position + aPoint.
 	(self gmCollisionHandler morphsCollidingWith: self) do: [:each | each collideWith: self velocity: aPoint].
+	self carried do: [:each | each moveBy: aPoint].
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
+}
+SPPlayer >> platform [
+	^ platform
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
+}
+SPPlayer >> platform: anObject [
+	platform := anObject
 ]
 
 {
