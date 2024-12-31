@@ -102,19 +102,14 @@ SPPlayer >> collideWithWall: aWall velocity: aPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:58'
+	#'squeak_changestamp' : 'mad 12/31/2024 00:40'
 }
 SPPlayer >> doMovement [
-	| horizontalVelocity |
-	horizontalVelocity := (({self leftKey -> -1. self rightKey -> 1}
-								select: [:each | self isKeyPressed: each key]
-								thenCollect: #value) copyWith: 0) sum.
-	self moveBy: horizontalVelocity * self horizontalSpeed @ 0.
-	(self canJump and: [self isKeyPressed: self jumpKey])
-		ifTrue: [self verticalVelocity: self jumpVelocity].
 	self
-		clearPlatform;
+		moveBy: self horizontalVelocity @ 0;
+		tryJump;
 		verticalVelocity: self verticalVelocity + self gravity;
+		clearPlatform;
 		moveBy: 0 @ self verticalVelocity.
 ]
 
@@ -136,10 +131,27 @@ SPPlayer >> gravity [
 
 {
 	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/31/2024 01:36'
+}
+SPPlayer >> horizontalDirection [
+	^ (self isKeyPressed: self rightKey) asInteger -
+		(self isKeyPressed: self leftKey) asInteger
+]
+
+{
+	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'mad 12/5/2024 18:30'
 }
 SPPlayer >> horizontalSpeed [
 	^ 10
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/30/2024 23:39'
+}
+SPPlayer >> horizontalVelocity [
+	^ self horizontalDirection * self horizontalSpeed
 ]
 
 {
@@ -317,6 +329,15 @@ SPPlayer >> step [
 }
 SPPlayer >> stepTime [
 	^ 1
+]
+
+{
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 12/30/2024 23:40'
+}
+SPPlayer >> tryJump [
+	(self canJump and: [self isKeyPressed: self jumpKey]) ifFalse: [^ self].
+	self verticalVelocity: self jumpVelocity.
 ]
 
 {
