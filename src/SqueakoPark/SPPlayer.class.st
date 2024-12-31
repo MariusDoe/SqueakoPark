@@ -304,10 +304,10 @@ SPPlayer >> step [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:25'
+	#'squeak_changestamp' : 'mad 12/31/2024 00:49'
 }
 SPPlayer >> stepTime [
-	^ 1
+	^ 20
 ]
 
 {
