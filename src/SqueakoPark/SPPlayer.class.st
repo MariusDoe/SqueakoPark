@@ -172,10 +172,10 @@ SPPlayer >> jumpKey: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:30'
+	#'squeak_changestamp' : 'mad 12/31/2024 01:50'
 }
 SPPlayer >> jumpVelocity [
-	^ -20
+	^ -25
 ]
 
 {
