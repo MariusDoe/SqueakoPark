@@ -46,12 +46,13 @@ SPKey >> initialize [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 19:14'
+	#'squeak_changestamp' : 'mad 12/31/2024 01:33'
 }
 SPKey >> loadSprite [
-	self sprite: (((GitAssetLoader for: 'SqueakoPark') loadForm: 'assets/key.png') magnifyBy: 0.1) asMorph.
-	self extent: self sprite extent.
-	self addMorphCentered: self sprite.
+	self
+		sprite: SPAssets key asMorph;
+		extent: self sprite extent;
+		addMorphCentered: self sprite.
 ]
 
 {
