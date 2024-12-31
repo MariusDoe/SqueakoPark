@@ -9,14 +9,6 @@ GSMetadata {
 			],
 			#encoding : Class [ #PNGReadWriter ]
 		},
-		GSAnimationMapper {
-			#version : 1,
-			#path : FSAbsolutePath [
-				'assets',
-				'squeako_character.gif'
-			],
-			#encoding : Class [ #GIFReadWriter ]
-		},
 		GSImageMapper {
 			#version : 1,
 			#path : FSAbsolutePath [

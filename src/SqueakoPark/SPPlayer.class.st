@@ -131,11 +131,15 @@ SPPlayer >> gravity [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/31/2024 01:36'
+	#'squeak_changestamp' : 'mad 12/31/2024 01:38'
 }
 SPPlayer >> horizontalDirection [
-	^ (self isKeyPressed: self rightKey) asInteger -
-		(self isKeyPressed: self leftKey) asInteger
+	| direction |
+	direction :=
+		(self isKeyPressed: self rightKey) asInteger -
+		(self isKeyPressed: self leftKey) asInteger.
+	self sprite direction: direction.
+	^ direction
 ]
 
 {
@@ -233,18 +237,17 @@ SPPlayer >> leftKey: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 18:57'
+	#'squeak_changestamp' : 'mad 12/31/2024 00:38'
 }
 SPPlayer >> loadSprite: angleNumber [
-	self sprite: ((GitAssetLoader for: 'SqueakoPark') loadAnimatedImageMorph: 'assets/squeako_character.gif').
-	self sprite
-		images: (self sprite images collect: [:form |
-					(form magnifyBy: 2) collectColors: [:color |
-						Color h: color hue + angleNumber s: color saturation v: color luminance alpha: color alpha]]);
-		image: self sprite images first copy;
-		setUniformDelay: 200.
-	self extent: self sprite extent.
-	self addMorphCentered: self sprite.
+	self
+		sprite: (SPPlayerSprite new
+					myPlayer: self;
+					hue: angleNumber;
+					updateImage;
+					yourself);
+		extent: self sprite extent;
+		addMorphCentered: self sprite.
 ]
 
 {
@@ -317,10 +320,11 @@ SPPlayer >> standOn: anObject [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:40'
+	#'squeak_changestamp' : 'mad 12/31/2024 00:14'
 }
 SPPlayer >> step [
 	self doMovement.
+	self sprite isJumping: self platform isNil.
 ]
 
 {
