@@ -10,10 +10,11 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 19:04'
+	#'squeak_changestamp' : 'mad 12/30/2024 23:44'
 }
-SPKey >> collideWith: aMorph velocity: aPoint [
-	^ aMorph collideWithKey: self velocity: aPoint
+SPKey >> collideWithPlayer: aPlayer velocity: aPoint [
+	self holder: aPlayer.
+	aPlayer key: self.
 ]
 
 {

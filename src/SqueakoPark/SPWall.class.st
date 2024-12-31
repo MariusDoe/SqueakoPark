@@ -6,10 +6,10 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 17:46'
+	#'squeak_changestamp' : 'mad 12/30/2024 23:45'
 }
-SPWall >> collideWith: anObject velocity: aPoint [
-	^ anObject collideWithWall: self velocity: aPoint
+SPWall >> collideWithPlayer: aPlayer velocity: aPoint [
+	^ aPlayer collideWithImmovable: self velocity: aPoint
 ]
 
 {

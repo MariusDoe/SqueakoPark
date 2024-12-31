@@ -58,14 +58,6 @@ SPPlayer >> clearPlatform [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:09'
-}
-SPPlayer >> collideWith: aMorph velocity: aPoint [
-	^ aMorph collideWithPlayer: self velocity: aPoint
-]
-
-{
-	#category : #'as yet unclassified',
 	#'squeak_changestamp' : 'mad 12/5/2024 18:30'
 }
 SPPlayer >> collideWithImmovable: aMorph velocity: aPoint [
@@ -77,27 +69,10 @@ SPPlayer >> collideWithImmovable: aMorph velocity: aPoint [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 19:05'
-}
-SPPlayer >> collideWithKey: aKey velocity: aPoint [
-	aKey holder: self.
-	self key: aKey.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:08'
+	#'squeak_changestamp' : 'mad 12/30/2024 23:46'
 }
 SPPlayer >> collideWithPlayer: aPlayer velocity: aPoint [
-	self collideWithImmovable: aPlayer velocity: aPoint.
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 18:09'
-}
-SPPlayer >> collideWithWall: aWall velocity: aPoint [
-	self collideWithImmovable: aWall velocity: aPoint.
+	aPlayer collideWithImmovable: self velocity: aPoint.
 ]
 
 {
@@ -252,11 +227,11 @@ SPPlayer >> loadSprite: angleNumber [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:58'
+	#'squeak_changestamp' : 'mad 12/30/2024 23:44'
 }
 SPPlayer >> moveBy: aPoint [
 	self position: self position + aPoint.
-	(self gmCollisionHandler morphsCollidingWith: self) do: [:each | each collideWith: self velocity: aPoint].
+	(self gmCollisionHandler morphsCollidingWith: self) do: [:each | each collideWithPlayer: self velocity: aPoint].
 	self carried do: [:each | each moveBy: aPoint].
 ]
 
