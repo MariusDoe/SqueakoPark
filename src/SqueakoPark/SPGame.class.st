@@ -61,14 +61,16 @@ SPGame >> spawnKeyAt: aPoint [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 18:41'
+	#'squeak_changestamp' : 'mad 1/16/2025 17:30'
 }
 SPGame >> spawnPlayerAt: aPoint left: leftCharacter right: rightCharacter jump: jumpCharacter colorAngle: aNumber [
 	self addMorph: (SPPlayer new
 						game: self;
-						leftKey: leftCharacter;
-						rightKey: rightCharacter;
-						jumpKey: jumpCharacter;
+						keyMap: (SPKeyMap new
+									left: leftCharacter;
+									right: rightCharacter;
+									jump: jumpCharacter;
+									yourself);
 						loadSprite: aNumber;
 						yourself).
 ]

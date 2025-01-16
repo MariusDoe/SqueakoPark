@@ -4,9 +4,7 @@ Class {
 	#instVars : [
 		'key',
 		'verticalVelocity',
-		'leftKey',
-		'rightKey',
-		'jumpKey',
+		'keyMap',
 		'platform',
 		'carried',
 		'sprite'
@@ -156,18 +154,10 @@ SPPlayer >> isKeyPressed: aCharacter [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
+	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
 }
 SPPlayer >> jumpKey [
-	^ jumpKey
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
-}
-SPPlayer >> jumpKey: anObject [
-	jumpKey := anObject
+	^ self keyMap jump
 ]
 
 {
@@ -196,18 +186,26 @@ SPPlayer >> key: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
+	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
 }
-SPPlayer >> leftKey [
-	^ leftKey
+SPPlayer >> keyMap [
+	^ keyMap
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
+	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
 }
-SPPlayer >> leftKey: anObject [
-	leftKey := anObject
+SPPlayer >> keyMap: anObject [
+	keyMap := anObject
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
+}
+SPPlayer >> leftKey [
+	^ self keyMap left
 ]
 
 {
@@ -253,18 +251,10 @@ SPPlayer >> platform: anObject [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
+	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
 }
 SPPlayer >> rightKey [
-	^ rightKey
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
-}
-SPPlayer >> rightKey: anObject [
-	rightKey := anObject
+	^ self keyMap right
 ]
 
 {
