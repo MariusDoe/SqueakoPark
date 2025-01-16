@@ -51,12 +51,12 @@ SPPlayer >> clearPushing: mySide other: otherSide [
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:39'
+	#'squeak_changestamp' : 'OB 1/16/2025 18:56'
 }
 SPPlayer >> collideWithDoor: aDoor [
-	Transcript show: 'door: ', aDoor. 
 	self key isNil ifFalse: [
-		aDoor unlock.]
+		aDoor unlock.
+		self key delete]
 ]
 
 {

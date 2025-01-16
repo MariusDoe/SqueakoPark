@@ -33,7 +33,7 @@ SPGame >> gmKeyHandler [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:28'
+	#'squeak_changestamp' : 'OB 1/16/2025 18:55'
 }
 SPGame >> initialize [
 	super initialize.
@@ -43,7 +43,7 @@ SPGame >> initialize [
 		color: Color white;
 		extent: 500 @ 400;
 		spawnWallAt: (0 @ 300 corner: 500 @ 400);
-
+		spawnDoorAt: (400 @ 100 corner: 500 @ 299);
 		spawnPlayerAt: 100 @ 100 left: $a right: $d jump: $w colorAngle: 0;
 		spawnPlayerAt: 300 @ 100 left: Character arrowLeft right: Character arrowRight jump: Character arrowUp colorAngle: 100;
 		spawnKeyAt: 200 @ 250.

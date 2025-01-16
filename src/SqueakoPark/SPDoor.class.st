@@ -2,18 +2,18 @@ Class {
 	#name : #SPDoor,
 	#superclass : #SPCollisionMorph,
 	#instVars : [
-		'isLocked'
+		'isOpen'
 	],
 	#category : #'SqueakoPark-Core'
 }
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:30'
+	#'squeak_changestamp' : 'OB 1/16/2025 18:53'
 }
-SPDoor >> collideWithPlayer: aPlayer [
+SPDoor >> collideWithPlayer: aPlayer velocity: aPoint [
 	
-	Transcript show: 'key: ' , aPlayer key
+	^aPlayer collideWithDoor: self. 
 ]
 
 {
@@ -27,36 +27,35 @@ SPDoor >> initialize [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:40'
+	#'squeak_changestamp' : 'OB 1/16/2025 18:47'
 }
-SPDoor >> isLocked [
-	^ isLocked
+SPDoor >> isOpen [
+	^isOpen
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:40'
+	#'squeak_changestamp' : 'OB 1/16/2025 18:48'
 }
-SPDoor >> isLocked: anObject [
-	isLocked := anObject
+SPDoor >> isOpen: aBoolean [
+	^ isOpen:= aBoolean.
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:40'
+	#'squeak_changestamp' : 'OB 1/16/2025 18:48'
 }
 SPDoor >> lock [
 
-	self isLocked: true.
+	self isOpen: false.
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:41'
+	#'squeak_changestamp' : 'OB 1/16/2025 18:54'
 }
 SPDoor >> unlock [
 
-	 self isLocked: false.
-	Transcript show: 'Door unlocked'.
-	self color: Color transparent.
+	self isOpen: true.
+	self color: Color lightGray.
 ]
