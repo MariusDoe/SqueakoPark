@@ -28,22 +28,6 @@ SPPlayer >> canJump [
 ]
 
 {
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
-}
-SPPlayer >> carried [
-	^ carried
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
-}
-SPPlayer >> carried: anObject [
-	carried := anObject
-]
-
-{
 	#category : #physics,
 	#'squeak_changestamp' : 'mad 1/16/2025 18:08'
 }
@@ -267,28 +251,12 @@ SPPlayer >> loadSprite: angleNumber [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/30/2024 23:44'
+	#'squeak_changestamp' : 'mad 1/16/2025 18:30'
 }
 SPPlayer >> moveBy: aPoint [
 	self position: self position + aPoint.
 	(self gmCollisionHandler morphsCollidingWith: self) do: [:each | each collideWithPlayer: self velocity: aPoint].
-	self carried do: [:each | each moveBy: aPoint].
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
-}
-SPPlayer >> platform [
-	^ platform
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:52'
-}
-SPPlayer >> platform: anObject [
-	platform := anObject
+	self pushedBy top do: [:each | each moveBy: aPoint].
 ]
 
 {
@@ -371,20 +339,4 @@ SPPlayer >> velocity [
 }
 SPPlayer >> velocity: aPoint [
 	velocity := aPoint
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
-}
-SPPlayer >> verticalVelocity [
-	^ verticalVelocity
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 17:41'
-}
-SPPlayer >> verticalVelocity: anObject [
-	verticalVelocity := anObject
 ]
