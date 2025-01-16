@@ -67,6 +67,16 @@ SPPlayer >> clearPushing: mySide other: otherSide [
 
 {
 	#category : #collisions,
+	#'squeak_changestamp' : 'OB 1/16/2025 18:39'
+}
+SPPlayer >> collideWithDoor: aDoor [
+	Transcript show: 'door: ', aDoor. 
+	self key isNil ifFalse: [
+		aDoor unlock.]
+]
+
+{
+	#category : #collisions,
 	#'squeak_changestamp' : 'mad 1/16/2025 18:12'
 }
 SPPlayer >> collideWithImmovable: aMorph velocity: aPoint [
