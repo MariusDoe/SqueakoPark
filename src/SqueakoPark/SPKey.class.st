@@ -9,7 +9,7 @@ Class {
 }
 
 {
-	#category : #accessing,
+	#category : #collisions,
 	#'squeak_changestamp' : 'mad 12/30/2024 23:44'
 }
 SPKey >> collideWithPlayer: aPlayer velocity: aPoint [
@@ -34,7 +34,7 @@ SPKey >> holder: anObject [
 ]
 
 {
-	#category : #accessing,
+	#category : #initialization,
 	#'squeak_changestamp' : 'mad 12/5/2024 19:04'
 }
 SPKey >> initialize [
@@ -46,7 +46,7 @@ SPKey >> initialize [
 ]
 
 {
-	#category : #accessing,
+	#category : #initialization,
 	#'squeak_changestamp' : 'mad 12/31/2024 01:33'
 }
 SPKey >> loadSprite [
@@ -57,7 +57,7 @@ SPKey >> loadSprite [
 ]
 
 {
-	#category : #accessing,
+	#category : #'stepping and presenter',
 	#'squeak_changestamp' : 'mad 12/5/2024 19:16'
 }
 SPKey >> moveToHolder [
@@ -83,7 +83,7 @@ SPKey >> sprite: anObject [
 ]
 
 {
-	#category : #accessing,
+	#category : #'stepping and presenter',
 	#'squeak_changestamp' : 'mad 12/5/2024 19:14'
 }
 SPKey >> step [
@@ -91,7 +91,7 @@ SPKey >> step [
 ]
 
 {
-	#category : #accessing,
+	#category : #'stepping and presenter',
 	#'squeak_changestamp' : 'mad 12/5/2024 19:00'
 }
 SPKey >> stepTime [

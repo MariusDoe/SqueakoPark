@@ -5,7 +5,7 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
+	#category : #collisions,
 	#'squeak_changestamp' : 'mad 12/30/2024 23:45'
 }
 SPWall >> collideWithPlayer: aPlayer velocity: aPoint [
@@ -13,7 +13,7 @@ SPWall >> collideWithPlayer: aPlayer velocity: aPoint [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #initialization,
 	#'squeak_changestamp' : 'mad 12/5/2024 19:08'
 }
 SPWall >> initialize [

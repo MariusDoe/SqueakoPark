@@ -2,18 +2,11 @@ Class {
 	#name : #SPCollisionMorph,
 	#superclass : #Morph,
 	#instVars : [
-		'game'
+		'game',
+		'pushedBy'
 	],
 	#category : #'SqueakoPark-Core'
 }
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 19:08'
-}
-SPCollisionMorph >> carry: anObject [
-	"do nothing"
-]
 
 {
 	#category : #accessing,
@@ -33,7 +26,7 @@ SPCollisionMorph >> game: aGame [
 ]
 
 {
-	#category : #'as yet unclassified',
+	#category : #accessing,
 	#'squeak_changestamp' : 'mad 12/5/2024 19:07'
 }
 SPCollisionMorph >> gmCollisionHandler [
@@ -41,18 +34,28 @@ SPCollisionMorph >> gmCollisionHandler [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 19:07'
+	#category : #initialization,
+	#'squeak_changestamp' : 'mad 1/16/2025 18:07'
 }
 SPCollisionMorph >> initialize [
 	super initialize.
-	self gmCollisionDetectionStrategy: GMRectangleCollisionDetectionShape new.
+	self
+		gmCollisionDetectionStrategy: GMRectangleCollisionDetectionShape new;
+		pushedBy: (SPSides withAll: [Set new]).
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 12/5/2024 19:08'
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/16/2025 17:59'
 }
-SPCollisionMorph >> uncarry: anObject [
-	"do nothing"
+SPCollisionMorph >> pushedBy [
+	^ pushedBy
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/16/2025 17:59'
+}
+SPCollisionMorph >> pushedBy: aDirections [
+	pushedBy := aDirections
 ]
