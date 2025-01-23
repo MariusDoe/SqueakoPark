@@ -27,6 +27,16 @@ SPPlayer >> canJump [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'OB 1/16/2025 18:56'
+}
+SPPlayer >> collideWithDoor: aDoor [
+	self key isNil ifFalse: [
+		aDoor unlock.
+		self key delete]
+]
+
+{
 	#category : #physics,
 	#'squeak_changestamp' : 'mad 1/16/2025 18:41'
 }

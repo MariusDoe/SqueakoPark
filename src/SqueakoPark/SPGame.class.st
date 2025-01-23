@@ -33,7 +33,7 @@ SPGame >> gmKeyHandler [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:49'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:41'
 }
 SPGame >> initialize [
 	super initialize.
@@ -43,10 +43,22 @@ SPGame >> initialize [
 		color: Color white;
 		extent: 500 @ 400;
 		spawnWallAt: (0 @ 300 corner: 500 @ 400);
+		spawnDoorAt: (400 @ 100 corner: 500 @ 299);
 		spawnPlayerAt: 100 @ 100 left: $a right: $d jump: $w colorAngle: 0;
 		spawnPlayerAt: 300 @ 100 left: Character arrowLeft right: Character arrowRight jump: Character arrowUp colorAngle: 100;
 		spawnKeyAt: 200 @ 250.
 	self addMorph: (SPBlock new game: self; weight: 2; position: 100 @ 100; yourself).
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'OB 1/16/2025 18:24'
+}
+SPGame >> spawnDoorAt: aRectangle [
+	| door |
+	door := SPDoor new bounds: aRectangle; yourself.
+	self addMorph: door.
+	self gmCollisionHandler addCollisionMorph: door.
 ]
 
 {
