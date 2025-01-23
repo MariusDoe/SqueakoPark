@@ -6,10 +6,10 @@ Class {
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'mad 12/30/2024 23:45'
+	#'squeak_changestamp' : 'mad 1/16/2025 19:06'
 }
-SPWall >> collideWithPlayer: aPlayer velocity: aPoint [
-	^ aPlayer collideWithImmovable: self velocity: aPoint
+SPWall >> handleCollision: aCollisionInfo [
+	aCollisionInfo moving hitImmovable: aCollisionInfo.
 ]
 
 {

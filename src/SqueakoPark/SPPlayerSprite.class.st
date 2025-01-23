@@ -5,6 +5,7 @@ Class {
 		'myPlayer',
 		'hue',
 		'isJumping',
+		'isPushing',
 		'direction',
 		'facing',
 		'cycleIndex'
@@ -147,6 +148,22 @@ SPPlayerSprite >> isJumping: aBoolean [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 09:19'
+}
+SPPlayerSprite >> isPushing [
+	^ isPushing
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 09:19'
+}
+SPPlayerSprite >> isPushing: aBoolean [
+	isPushing := aBoolean
+]
+
+{
 	#category : #modes,
 	#'squeak_changestamp' : 'mad 12/31/2024 00:27'
 }
@@ -156,11 +173,12 @@ SPPlayerSprite >> jump [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/31/2024 00:34'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:19'
 }
 SPPlayerSprite >> mode [
 	self isJumping ifTrue: [^ #jump].
 	self direction = 0 ifTrue: [^ #stand].
+	self isPushing ifTrue: [^ #push].
 	^ #walk
 ]
 

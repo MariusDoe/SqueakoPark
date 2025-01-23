@@ -34,6 +34,14 @@ SPCollisionMorph >> gmCollisionHandler [
 ]
 
 {
+	#category : #collisions,
+	#'squeak_changestamp' : 'mad 1/16/2025 19:02'
+}
+SPCollisionMorph >> handleCollision: aCollisionInfo [
+	self subclassResponsibility.
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'mad 1/16/2025 18:07'
 }
@@ -42,6 +50,14 @@ SPCollisionMorph >> initialize [
 	self
 		gmCollisionDetectionStrategy: GMRectangleCollisionDetectionShape new;
 		pushedBy: (SPSides withAll: [Set new]).
+]
+
+{
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 1/16/2025 19:05'
+}
+SPCollisionMorph >> isPlayer [
+	^ false
 ]
 
 {

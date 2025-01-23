@@ -10,11 +10,19 @@ Class {
 
 {
 	#category : #collisions,
-	#'squeak_changestamp' : 'mad 12/30/2024 23:44'
+	#'squeak_changestamp' : 'mad 1/16/2025 19:06'
 }
-SPKey >> collideWithPlayer: aPlayer velocity: aPoint [
+SPKey >> collectedByPlayer: aPlayer [
 	self holder: aPlayer.
 	aPlayer key: self.
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'mad 1/16/2025 19:06'
+}
+SPKey >> handleCollision: aCollisionInfo [
+	aCollisionInfo moving isPlayer ifTrue: [self collectedByPlayer: aCollisionInfo moving].
 ]
 
 {

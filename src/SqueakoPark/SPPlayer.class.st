@@ -1,22 +1,21 @@
 Class {
 	#name : #SPPlayer,
-	#superclass : #SPCollisionMorph,
+	#superclass : #SPMovingCollisionMorph,
 	#instVars : [
 		'key',
-		'velocity',
 		'keyMap',
-		'pushing',
 		'sprite'
 	],
 	#category : #'SqueakoPark-Core'
 }
 
 {
-	#category : #movement,
-	#'squeak_changestamp' : 'mad 1/16/2025 17:35'
+	#category : #physics,
+	#'squeak_changestamp' : 'mad 1/16/2025 18:42'
 }
-SPPlayer >> addGravity [
-	self velocity: self velocity + (0 @ self gravity).
+SPPlayer >> addForces [
+	super addForces.
+	self tryJump.
 ]
 
 {
@@ -29,70 +28,10 @@ SPPlayer >> canJump [
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:08'
+	#'squeak_changestamp' : 'mad 1/16/2025 18:41'
 }
-SPPlayer >> clearPushing [
-	self
-		clearPushing: #left other: #right;
-		clearPushing: #right other: #left;
-		clearPushing: #top other: #bottom;
-		clearPushing: #bottom other: #top.
-]
-
-{
-	#category : #physics,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:08'
-}
-SPPlayer >> clearPushing: mySide other: otherSide [
-	(self pushing perform: mySide)
-		do: [:each | (each pushedBy perform: otherSide) remove: self];
-		removeAll.
-]
-
-{
-	#category : #collisions,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:12'
-}
-SPPlayer >> collideWithImmovable: aMorph velocity: aPoint [
-	aPoint y > 0 ifTrue: [self collidedWith: aMorph mySide: #bottom otherSide: #top velocityFactor: 1 @ 0].
-	aPoint y < 0 ifTrue: [self collidedWith: aMorph mySide: #top otherSide: #bottom velocityFactor: 1 @ 0].
-	aPoint x < 0 ifTrue: [self collidedWith: aMorph mySide: #left otherSide: #right velocityFactor: 0 @ 1].
-	aPoint x > 0 ifTrue: [self collidedWith: aMorph mySide: #right otherSide: #left velocityFactor: 0 @ 1].
-]
-
-{
-	#category : #collisions,
-	#'squeak_changestamp' : 'mad 12/30/2024 23:46'
-}
-SPPlayer >> collideWithPlayer: aPlayer velocity: aPoint [
-	aPlayer collideWithImmovable: self velocity: aPoint.
-]
-
-{
-	#category : #collisions,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:09'
-}
-SPPlayer >> collidedWith: aMorph mySide: mySide otherSide: otherSide velocityFactor: aPoint [
-	self perform: mySide asSimpleSetter with: (aMorph perform: otherSide).
-	(self pushing perform: mySide) add: aMorph.
-	(aMorph pushedBy perform: otherSide) add: self.
-	self velocity: self velocity * aPoint.
-]
-
-{
-	#category : #movement,
-	#'squeak_changestamp' : 'mad 1/16/2025 17:43'
-}
-SPPlayer >> doMovement [
-	| currentVelocity |
-	self
-		addGravity;
-		tryJump.
-	currentVelocity := self velocity + self inputVelocity.
-	self
-		clearPushing;
-		moveBy: currentVelocity x @ 0;
-		moveBy: 0 @ currentVelocity y.
+SPPlayer >> currentVelocity [
+	^ self velocity + self inputVelocity
 ]
 
 {
@@ -104,23 +43,12 @@ SPPlayer >> gmKeyHandler [
 ]
 
 {
-	#category : #physics,
-	#'squeak_changestamp' : 'mad 12/5/2024 18:28'
-}
-SPPlayer >> gravity [
-	^ 2
-]
-
-{
 	#category : #initialization,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:07'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:26'
 }
 SPPlayer >> initialize [
 	super initialize.
-	self
-		color: Color transparent;
-		pushing: (SPSides withAll: [Set new]);
-		velocity: 0 @ 0.
+	self color: Color transparent.
 ]
 
 {
@@ -161,11 +89,11 @@ SPPlayer >> isKeyPressed: aCharacter [
 ]
 
 {
-	#category : #physics,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:11'
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 1/16/2025 19:08'
 }
-SPPlayer >> isStanding [
-	^ self pushing bottom notEmpty
+SPPlayer >> isPlayer [
+	^ true
 ]
 
 {
@@ -241,32 +169,6 @@ SPPlayer >> loadSprite: angleNumber [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:30'
-}
-SPPlayer >> moveBy: aPoint [
-	self position: self position + aPoint.
-	(self gmCollisionHandler morphsCollidingWith: self) do: [:each | each collideWithPlayer: self velocity: aPoint].
-	self pushedBy top do: [:each | each moveBy: aPoint].
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 17:45'
-}
-SPPlayer >> pushing [
-	^ pushing
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 17:45'
-}
-SPPlayer >> pushing: anObject [
-	pushing := anObject
-]
-
-{
-	#category : #accessing,
 	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
 }
 SPPlayer >> rightKey [
@@ -291,19 +193,13 @@ SPPlayer >> sprite: anObject [
 
 {
 	#category : #'stepping and presenter',
-	#'squeak_changestamp' : 'mad 1/16/2025 18:10'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:20'
 }
 SPPlayer >> step [
-	self doMovement.
-	self sprite isJumping: self isStanding not.
-]
-
-{
-	#category : #'stepping and presenter',
-	#'squeak_changestamp' : 'mad 12/31/2024 00:49'
-}
-SPPlayer >> stepTime [
-	^ 20
+	super step.
+	self sprite
+		isJumping: self isStanding not;
+		isPushing: (self pushing left notEmpty or: [self pushing right notEmpty]).
 ]
 
 {
@@ -313,20 +209,4 @@ SPPlayer >> stepTime [
 SPPlayer >> tryJump [
 	(self canJump and: [self isKeyPressed: self jumpKey]) ifFalse: [^ self].
 	self velocity: self velocity x @ self jumpVelocity.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:06'
-}
-SPPlayer >> velocity [
-	^ velocity
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:06'
-}
-SPPlayer >> velocity: aPoint [
-	velocity := aPoint
 ]
