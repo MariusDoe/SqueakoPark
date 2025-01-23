@@ -31,6 +31,14 @@ SPPlayerSprite >> basicIsJumping: aBoolean [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 09:49'
+}
+SPPlayerSprite >> basicIsPushing: aBoolean [
+	isPushing := aBoolean.
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'mad 12/31/2024 00:25'
 }
 SPPlayerSprite >> cycleIndex [
@@ -157,10 +165,10 @@ SPPlayerSprite >> isPushing [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 09:19'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:49'
 }
 SPPlayerSprite >> isPushing: aBoolean [
-	isPushing := aBoolean
+	self restartOnModeChange: [self basicIsPushing: aBoolean].
 ]
 
 {

@@ -4,10 +4,53 @@ Class {
 	#instVars : [
 		'left',
 		'right',
+		'down',
 		'jump'
 	],
 	#category : #'SqueakoPark-Core'
 }
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'mad 1/23/2025 14:29'
+}
+SPKeyMap class >> arrowKeys [
+	^ self new
+		jump: Character arrowUp;
+		left: Character arrowLeft;
+		down: Character arrowDown;
+		right: Character arrowRight;
+		yourself
+]
+
+{
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'mad 1/23/2025 14:29'
+}
+SPKeyMap class >> wasd [
+	^ self new
+		jump: $w;
+		left: $a;
+		down: $s;
+		right: $d;
+		yourself
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:28'
+}
+SPKeyMap >> down [
+	^ down
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:28'
+}
+SPKeyMap >> down: aCharacter [
+	down := aCharacter
+]
 
 {
 	#category : #accessing,

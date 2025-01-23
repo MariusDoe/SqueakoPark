@@ -1,15 +1,15 @@
 Class {
 	#name : #SPWall,
-	#superclass : #SPCollisionMorph,
+	#superclass : #SPSolid,
 	#category : #'SqueakoPark-Core'
 }
 
 {
-	#category : #collisions,
-	#'squeak_changestamp' : 'mad 1/16/2025 19:06'
+	#category : #'as yet unclassified',
+	#'squeak_changestamp' : 'mad 1/23/2025 17:57'
 }
-SPWall >> handleCollision: aCollisionInfo [
-	aCollisionInfo moving hitImmovable: aCollisionInfo.
+SPWall >> canBePushed: aPushRequest [
+	^ false
 ]
 
 {

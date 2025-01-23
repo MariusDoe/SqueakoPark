@@ -1,18 +1,25 @@
 Class {
 	#name : #SPBlock,
-	#superclass : #SPMovingCollisionMorph,
+	#superclass : #SPActor,
 	#instVars : [
-		'weight'
+		'weight',
+		'remainingPushDistance'
 	],
 	#category : #'SqueakoPark-Core'
 }
 
 {
-	#category : #physics,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:48'
+	#category : #pushing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:54'
 }
-SPBlock >> currentVelocity [
-	^ self velocity + self pushVelocity
+SPBlock >> canBePushed: aPushRequest [
+	self remainingPushDistance > 0 ifFalse: [^ false].
+	(aPushRequest
+		canBePushed: self
+		by: self weight
+		of: (self allPushersTowards: aPushRequest direction))
+			ifFalse: [^ false].
+	^ super canBePushed: aPushRequest
 ]
 
 {
@@ -25,54 +32,53 @@ SPBlock >> initialize [
 ]
 
 {
-	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:25'
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 1/23/2025 10:17'
 }
-SPBlock >> pushCountDiff [
-	^ (self pushCountFrom: #left) - (self pushCountFrom: #right)
+SPBlock >> isBlock [
+	^ true
 ]
 
 {
-	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/23/2025 09:30'
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:14'
 }
-SPBlock >> pushCountFrom: aSymbol [
-	| pushing queue |
-	queue := OrderedCollection with: self.
-	pushing := Set new.
-	[queue notEmpty] whileTrue: [ | current |
-		current := queue removeFirst.
-		(pushing includes: current) ifFalse: [
-			queue addAll: (current pushedBy perform: aSymbol)].
-		pushing add: current].
-	^ pushing size
+SPBlock >> preMovement [
+	super preMovement.
+	self remainingPushDistance: self pushSpeed.
 ]
 
 {
-	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:28'
-}
-SPBlock >> pushDirection [
-	| diff |
-	diff := self pushCountDiff.
-	diff abs < self weight ifTrue: [^ 0].
-	^ diff sign
-]
-
-{
-	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/23/2025 09:31'
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 1/23/2025 17:56'
 }
 SPBlock >> pushSpeed [
-	^ 1
+	^ 2
 ]
 
 {
-	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:28'
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:55'
 }
-SPBlock >> pushVelocity [
-	^ self pushDirection * self pushSpeed @ 0
+SPBlock >> pushTowards: aSymbol [
+	self remainingPushDistance: self remainingPushDistance - 1.
+	super pushTowards: aSymbol.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:14'
+}
+SPBlock >> remainingPushDistance [
+	^ remainingPushDistance
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:14'
+}
+SPBlock >> remainingPushDistance: anObject [
+	remainingPushDistance := anObject
 ]
 
 {

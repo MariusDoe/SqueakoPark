@@ -1,10 +1,11 @@
 Class {
 	#name : #SPPlayer,
-	#superclass : #SPMovingCollisionMorph,
+	#superclass : #SPActor,
 	#instVars : [
-		'key',
+		'holding',
 		'keyMap',
-		'sprite'
+		'sprite',
+		'inputDirection'
 	],
 	#category : #'SqueakoPark-Core'
 }
@@ -19,19 +20,38 @@ SPPlayer >> addForces [
 ]
 
 {
+	#category : #pushing,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:34'
+}
+SPPlayer >> canBePushed: aMovementRequest [
+	aMovementRequest direction = self inputDirection ifFalse: [^ false].
+	aMovementRequest addPushingPlayer: self.
+	^ super canBePushed: aMovementRequest
+]
+
+{
 	#category : #input,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:11'
+	#'squeak_changestamp' : 'mad 1/23/2025 14:15'
 }
 SPPlayer >> canJump [
-	^ self isStanding and: [self pushedBy top isEmpty]
+	^ self isStanding and: [(self pushersTowards at: #bottom) isEmpty]
 ]
 
 {
 	#category : #physics,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:41'
+	#'squeak_changestamp' : 'mad 1/23/2025 14:24'
 }
 SPPlayer >> currentVelocity [
+	self updateInputDirection.
 	^ self velocity + self inputVelocity
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:15'
+}
+SPPlayer >> downKey [
+	^ self keyMap down
 ]
 
 {
@@ -43,25 +63,46 @@ SPPlayer >> gmKeyHandler [
 ]
 
 {
-	#category : #initialization,
-	#'squeak_changestamp' : 'mad 1/23/2025 09:26'
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:09'
 }
-SPPlayer >> initialize [
-	super initialize.
-	self color: Color transparent.
+SPPlayer >> holding [
+	^ holding
 ]
 
 {
-	#category : #input,
-	#'squeak_changestamp' : 'mad 1/16/2025 17:43'
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:09'
+}
+SPPlayer >> holding: aSet [
+	holding := aSet
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:09'
+}
+SPPlayer >> initialize [
+	super initialize.
+	self
+		color: Color transparent;
+		holding: Set new.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:13'
 }
 SPPlayer >> inputDirection [
-	| direction |
-	direction :=
-		(self isKeyPressed: self rightKey) asInteger -
-		(self isKeyPressed: self leftKey) asInteger.
-	self sprite direction: direction.
-	^ direction
+	^ inputDirection
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:13'
+}
+SPPlayer >> inputDirection: aSymbol [
+	inputDirection := aSymbol
 ]
 
 {
@@ -74,10 +115,22 @@ SPPlayer >> inputSpeed [
 
 {
 	#category : #input,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:08'
+	#'squeak_changestamp' : 'mad 1/23/2025 14:25'
 }
 SPPlayer >> inputVelocity [
-	^ self inputDirection * self inputSpeed @ 0
+	^ (self inputDirection caseOf: {
+		[#left] -> [-1].
+		[#right] -> [1].
+		[nil] -> [0]
+	}) * self inputSpeed @ 0
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:30'
+}
+SPPlayer >> isDownKeyPressed [
+	^ self isKeyPressed: self downKey
 ]
 
 {
@@ -97,6 +150,14 @@ SPPlayer >> isPlayer [
 ]
 
 {
+	#category : #pushing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:47'
+}
+SPPlayer >> isPushing [
+	^ (self pushing at: (self inputDirection ifNil: [^ false])) notEmpty
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
 }
@@ -110,22 +171,6 @@ SPPlayer >> jumpKey [
 }
 SPPlayer >> jumpVelocity [
 	^ -25
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 19:05'
-}
-SPPlayer >> key [
-	^ key
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 19:05'
-}
-SPPlayer >> key: anObject [
-	key := anObject
 ]
 
 {
@@ -153,7 +198,7 @@ SPPlayer >> leftKey [
 ]
 
 {
-	#category : #accessing,
+	#category : #initialization,
 	#'squeak_changestamp' : 'mad 12/31/2024 00:38'
 }
 SPPlayer >> loadSprite: angleNumber [
@@ -193,13 +238,21 @@ SPPlayer >> sprite: anObject [
 
 {
 	#category : #'stepping and presenter',
-	#'squeak_changestamp' : 'mad 1/23/2025 09:20'
+	#'squeak_changestamp' : 'mad 1/23/2025 14:23'
 }
 SPPlayer >> step [
 	super step.
 	self sprite
 		isJumping: self isStanding not;
-		isPushing: (self pushing left notEmpty or: [self pushing right notEmpty]).
+		isPushing: self isPushing.
+]
+
+{
+	#category : #'stepping and presenter',
+	#'squeak_changestamp' : 'mad 1/23/2025 14:31'
+}
+SPPlayer >> stepTime [
+	^ 1
 ]
 
 {
@@ -212,11 +265,41 @@ SPPlayer >> tryJump [
 ]
 
 {
-	#category : #collisions,
-	#'squeak_changestamp' : 'mad 1/23/2025 09:43'
+	#category : #input,
+	#'squeak_changestamp' : 'mad 1/23/2025 18:06'
 }
-SPPlayer >> tryOpen: aDoor [
-	self key ifNil: [^ self].
-	aDoor open.
-	self key delete.
+SPPlayer >> tryLeave [
+	self isDownKeyPressed ifFalse: [^ self].
+	self hide.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:42'
+}
+SPPlayer >> tryMoveTowards: aSymbol [
+	aSymbol = self inputDirection ifTrue: [^ self tryPushTowards: aSymbol].
+	^ super tryMoveTowards: aSymbol
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'mad 1/23/2025 15:02'
+}
+SPPlayer >> tryPushTowards: aSymbol [
+	(self canBePushed: (SPPushRequest new
+							direction: aSymbol;
+							yourself)) ifFalse: [^ self cannotMoveTowards: aSymbol].
+	self pushTowards: aSymbol.
+]
+
+{
+	#category : #input,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:13'
+}
+SPPlayer >> updateInputDirection [
+	| direction |
+	direction := (self isKeyPressed: self rightKey) asInteger - (self isKeyPressed: self leftKey) asInteger.
+	self inputDirection: (direction = 0 ifTrue: [nil] ifFalse: [direction < 0 ifTrue: [#left] ifFalse: [#right]]).
+	self sprite direction: direction.
 ]

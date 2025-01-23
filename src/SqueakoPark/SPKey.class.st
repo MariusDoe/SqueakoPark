@@ -1,6 +1,6 @@
 Class {
 	#name : #SPKey,
-	#superclass : #SPCollisionMorph,
+	#superclass : #SPCollider,
 	#instVars : [
 		'holder',
 		'sprite'
@@ -9,20 +9,30 @@ Class {
 }
 
 {
-	#category : #collisions,
-	#'squeak_changestamp' : 'mad 1/16/2025 19:06'
+	#category : #players,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:02'
 }
 SPKey >> collectedByPlayer: aPlayer [
+	self removeFromHolder.
 	self holder: aPlayer.
-	aPlayer key: self.
+	aPlayer holding add: self.
 ]
 
 {
-	#category : #collisions,
-	#'squeak_changestamp' : 'mad 1/16/2025 19:06'
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:19'
 }
-SPKey >> handleCollision: aCollisionInfo [
-	aCollisionInfo moving isPlayer ifTrue: [self collectedByPlayer: aCollisionInfo moving].
+SPKey >> doMovement [
+	super doMovement.
+	self moveToHolder.
+]
+
+{
+	#category : #players,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:04'
+}
+SPKey >> handlePlayers [
+	self overlappingColliders select: #isPlayer thenDo: [:each | self collectedByPlayer: each].
 ]
 
 {
@@ -35,10 +45,10 @@ SPKey >> holder [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/5/2024 19:00'
+	#'squeak_changestamp' : 'mad 1/23/2025 13:09'
 }
-SPKey >> holder: anObject [
-	holder := anObject
+SPKey >> holder: aPlayer [
+	holder := aPlayer
 ]
 
 {
@@ -54,6 +64,14 @@ SPKey >> initialize [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 1/23/2025 17:58'
+}
+SPKey >> isKey [
+	^ true
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'mad 12/31/2024 01:33'
 }
@@ -65,13 +83,41 @@ SPKey >> loadSprite [
 ]
 
 {
-	#category : #'stepping and presenter',
+	#category : #movement,
 	#'squeak_changestamp' : 'mad 12/5/2024 19:16'
 }
 SPKey >> moveToHolder [
 	self holder ifNil: [^ self].
 	((self center dist: self holder center) < 75) ifTrue: [^ self].
 	self center: (self center interpolateTo: self holder center at: 0.05).
+]
+
+{
+	#category : #doors,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:03'
+}
+SPKey >> open: aDoor [
+	self removeFromHolder.
+	aDoor open.
+	self delete.
+]
+
+{
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:03'
+}
+SPKey >> postMovement [
+	self handlePlayers.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:03'
+}
+SPKey >> removeFromHolder [
+	self holder ifNil: [^ self].
+	self holder holding remove: self ifAbsent: [].
+	self holder: nil.
 ]
 
 {
@@ -88,20 +134,4 @@ SPKey >> sprite [
 }
 SPKey >> sprite: anObject [
 	sprite := anObject
-]
-
-{
-	#category : #'stepping and presenter',
-	#'squeak_changestamp' : 'mad 12/5/2024 19:14'
-}
-SPKey >> step [
-	self moveToHolder.
-]
-
-{
-	#category : #'stepping and presenter',
-	#'squeak_changestamp' : 'mad 12/5/2024 19:00'
-}
-SPKey >> stepTime [
-	^ 1
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #SPDoor,
-	#superclass : #SPCollisionMorph,
+	#superclass : #SPCollider,
 	#instVars : [
 		'isOpen'
 	],
@@ -8,7 +8,7 @@ Class {
 }
 
 {
-	#category : #initialization,
+	#category : #opening,
 	#'squeak_changestamp' : 'mad 1/23/2025 09:45'
 }
 SPDoor >> close [
@@ -17,16 +17,25 @@ SPDoor >> close [
 ]
 
 {
-	#category : #initialization,
-	#'squeak_changestamp' : 'mad 1/23/2025 09:46'
+	#category : #players,
+	#'squeak_changestamp' : 'mad 1/23/2025 18:07'
 }
-SPDoor >> handleCollision: aCollisionInfo [
-	aCollisionInfo moving isPlayer ifFalse: [^ self].
-	aCollisionInfo moving tryOpen: self.
+SPDoor >> handlePlayer: aPlayer [
+	self isOpen
+		ifTrue: [aPlayer tryLeave]
+		ifFalse: [self tryOpen: aPlayer].
 ]
 
 {
-	#category : #accessing,
+	#category : #players,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:57'
+}
+SPDoor >> handlePlayers [
+	self overlappingColliders select: #isPlayer thenDo: [:each | self handlePlayer: each].
+]
+
+{
+	#category : #initialization,
 	#'squeak_changestamp' : 'mad 1/23/2025 09:46'
 }
 SPDoor >> initialize [
@@ -51,10 +60,29 @@ SPDoor >> isOpen: aBoolean [
 ]
 
 {
-	#category : #initialization,
+	#category : #opening,
 	#'squeak_changestamp' : 'mad 1/23/2025 09:45'
 }
 SPDoor >> open [
 	self isOpen: true.
 	self color: Color lightGray.
+]
+
+{
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 1/23/2025 13:57'
+}
+SPDoor >> postMovement [
+	self handlePlayers.
+]
+
+{
+	#category : #opening,
+	#'squeak_changestamp' : 'mad 1/23/2025 14:01'
+}
+SPDoor >> tryOpen: aPlayer [
+	| key |
+	aPlayer isDownKeyPressed ifFalse: [^ self].
+	key := aPlayer holding detect: #isKey ifNone: [^ self].
+	key open: self.
 ]
