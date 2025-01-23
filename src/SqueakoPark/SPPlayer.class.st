@@ -27,16 +27,6 @@ SPPlayer >> canJump [
 ]
 
 {
-	#category : #collisions,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:56'
-}
-SPPlayer >> collideWithDoor: aDoor [
-	self key isNil ifFalse: [
-		aDoor unlock.
-		self key delete]
-]
-
-{
 	#category : #physics,
 	#'squeak_changestamp' : 'mad 1/16/2025 18:41'
 }
@@ -219,4 +209,14 @@ SPPlayer >> step [
 SPPlayer >> tryJump [
 	(self canJump and: [self isKeyPressed: self jumpKey]) ifFalse: [^ self].
 	self velocity: self velocity x @ self jumpVelocity.
+]
+
+{
+	#category : #collisions,
+	#'squeak_changestamp' : 'mad 1/23/2025 09:43'
+}
+SPPlayer >> tryOpen: aDoor [
+	self key ifNil: [^ self].
+	aDoor open.
+	self key delete.
 ]

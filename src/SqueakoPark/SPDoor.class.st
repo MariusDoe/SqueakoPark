@@ -9,20 +9,29 @@ Class {
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:53'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:45'
 }
-SPDoor >> collideWithPlayer: aPlayer velocity: aPoint [
-	
-	^aPlayer collideWithDoor: self. 
+SPDoor >> close [
+	self isOpen: false.
+	self color: Color brown.
 ]
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:20'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:46'
+}
+SPDoor >> handleCollision: aCollisionInfo [
+	aCollisionInfo moving isPlayer ifFalse: [^ self].
+	aCollisionInfo moving tryOpen: self.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/23/2025 09:46'
 }
 SPDoor >> initialize [
 	super initialize.
-	self color: Color brown
+	self close.
 ]
 
 {
@@ -43,19 +52,9 @@ SPDoor >> isOpen: aBoolean [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:48'
+	#'squeak_changestamp' : 'mad 1/23/2025 09:45'
 }
-SPDoor >> lock [
-
-	self isOpen: false.
-]
-
-{
-	#category : #initialization,
-	#'squeak_changestamp' : 'OB 1/16/2025 18:54'
-}
-SPDoor >> unlock [
-
+SPDoor >> open [
 	self isOpen: true.
 	self color: Color lightGray.
 ]
