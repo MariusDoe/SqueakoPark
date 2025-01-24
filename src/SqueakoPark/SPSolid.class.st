@@ -52,10 +52,11 @@ SPSolid >> isSolid [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'mad 1/23/2025 18:00'
+	#'squeak_changestamp' : 'mad 1/24/2025 15:03'
 }
 SPSolid >> moveTowards: aSymbol [
-	(self pushersTowards at: #bottom) do: [:each | each tryMoveTowards: aSymbol].
+	aSymbol = #bottom ifFalse: [
+		(self pushersTowards at: #bottom) do: [:each | each tryMoveTowards: aSymbol]].
 	super moveTowards: aSymbol.
 ]
 
