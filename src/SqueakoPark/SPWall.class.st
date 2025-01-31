@@ -30,6 +30,14 @@ SPWall >> initialize [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 1/31/2025 12:49'
+}
+SPWall >> isWall [
+	^ true
+]
+
+{
 	#category : #pushing,
 	#'squeak_changestamp' : 'mad 1/31/2025 12:15'
 }

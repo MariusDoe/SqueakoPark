@@ -137,6 +137,14 @@ SPSolid >> isSolid [
 ]
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 1/31/2025 12:50'
+}
+SPSolid >> isWall [
+	^ false
+]
+
+{
 	#category : #movement,
 	#'squeak_changestamp' : 'mad 1/31/2025 12:54'
 }
