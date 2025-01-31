@@ -1,6 +1,6 @@
 Class {
 	#name : #SPBlock,
-	#superclass : #SPActor,
+	#superclass : #SPFallingSolid,
 	#instVars : [
 		'weight',
 		'remainingPushDistance'
@@ -49,7 +49,7 @@ SPBlock >> preMovement [
 ]
 
 {
-	#category : #movement,
+	#category : #pushing,
 	#'squeak_changestamp' : 'mad 1/23/2025 17:56'
 }
 SPBlock >> pushSpeed [
@@ -57,7 +57,7 @@ SPBlock >> pushSpeed [
 ]
 
 {
-	#category : #accessing,
+	#category : #pushing,
 	#'squeak_changestamp' : 'mad 1/23/2025 14:55'
 }
 SPBlock >> pushTowards: aSymbol [
@@ -75,10 +75,10 @@ SPBlock >> remainingPushDistance [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 14:14'
+	#'squeak_changestamp' : 'mad 1/31/2025 12:30'
 }
-SPBlock >> remainingPushDistance: anObject [
-	remainingPushDistance := anObject
+SPBlock >> remainingPushDistance: aNumber [
+	remainingPushDistance := aNumber
 ]
 
 {

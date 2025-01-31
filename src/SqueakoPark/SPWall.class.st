@@ -5,7 +5,15 @@ Class {
 }
 
 {
-	#category : #'as yet unclassified',
+	#category : #pushing,
+	#'squeak_changestamp' : 'mad 1/31/2025 12:11'
+}
+SPWall >> canBeMovedTowards: aSymbol [
+	^ false
+]
+
+{
+	#category : #pushing,
 	#'squeak_changestamp' : 'mad 1/23/2025 17:57'
 }
 SPWall >> canBePushed: aPushRequest [
@@ -19,4 +27,12 @@ SPWall >> canBePushed: aPushRequest [
 SPWall >> initialize [
 	super initialize.
 	self color: Color red.
+]
+
+{
+	#category : #pushing,
+	#'squeak_changestamp' : 'mad 1/31/2025 12:15'
+}
+SPWall >> tryPushTowards: aSymbol [
+	^ self tryMoveTowards: aSymbol
 ]

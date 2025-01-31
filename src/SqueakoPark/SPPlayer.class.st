@@ -1,6 +1,6 @@
 Class {
 	#name : #SPPlayer,
-	#superclass : #SPActor,
+	#superclass : #SPFallingSolid,
 	#instVars : [
 		'holding',
 		'keyMap',
@@ -21,12 +21,11 @@ SPPlayer >> addForces [
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:34'
+	#'squeak_changestamp' : 'mad 1/24/2025 15:28'
 }
-SPPlayer >> canBePushed: aMovementRequest [
-	aMovementRequest direction = self inputDirection ifFalse: [^ false].
-	aMovementRequest addPushingPlayer: self.
-	^ super canBePushed: aMovementRequest
+SPPlayer >> canBePushed: aPushRequest [
+	aPushRequest direction = self inputDirection ifFalse: [^ false].
+	^ super canBePushed: aPushRequest
 ]
 
 {
@@ -271,26 +270,6 @@ SPPlayer >> tryJump [
 SPPlayer >> tryLeave [
 	self isDownKeyPressed ifFalse: [^ self].
 	self hide.
-]
-
-{
-	#category : #input,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:42'
-}
-SPPlayer >> tryMoveTowards: aSymbol [
-	aSymbol = self inputDirection ifTrue: [^ self tryPushTowards: aSymbol].
-	^ super tryMoveTowards: aSymbol
-]
-
-{
-	#category : #input,
-	#'squeak_changestamp' : 'mad 1/23/2025 15:02'
-}
-SPPlayer >> tryPushTowards: aSymbol [
-	(self canBePushed: (SPPushRequest new
-							direction: aSymbol;
-							yourself)) ifFalse: [^ self cannotMoveTowards: aSymbol].
-	self pushTowards: aSymbol.
 ]
 
 {

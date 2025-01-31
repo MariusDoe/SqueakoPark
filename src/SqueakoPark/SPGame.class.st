@@ -9,14 +9,6 @@ Class {
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 14:26'
-}
-SPGame >> actors [
-	^ self colliders select: #isActor
-]
-
-{
-	#category : #accessing,
 	#'squeak_changestamp' : 'mad 1/23/2025 13:26'
 }
 SPGame >> colliders [
@@ -41,11 +33,11 @@ SPGame >> collidersOverlapping: aRectangle [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 14:21'
+	#'squeak_changestamp' : 'mad 1/24/2025 15:24'
 }
 SPGame >> doMovement [
 	self colliders do: #doMovement.
-	[self actors anySatisfy: [:each | each movesDuring: [each tryMove]]] whileTrue.
+	[self solids anySatisfy: [:each | each movesDuring: [each tryPush]]] whileTrue.
 ]
 
 {
@@ -100,6 +92,14 @@ SPGame >> postMovement [
 }
 SPGame >> preMovement [
 	self colliders do: #preMovement.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 1/24/2025 15:23'
+}
+SPGame >> solids [
+	^ self colliders select: #isSolid
 ]
 
 {
