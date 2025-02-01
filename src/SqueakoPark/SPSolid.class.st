@@ -98,6 +98,20 @@ SPSolid >> cannotMoveTowards: aSymbol [
 
 {
 	#category : #movement,
+	#'squeak_changestamp' : 'mad 2/1/2025 22:48'
+}
+SPSolid >> carryTowards: aSymbol [
+	| sortBy |
+	sortBy := aSymbol caseOf: {
+		[#left] -> [#left ascending].
+		[#right] -> [#right descending].
+	} otherwise: [^ self].
+	((self pushersTowards at: #bottom) sorted: sortBy)
+		do: [:each | each tryBeCarriedTowards: aSymbol].
+]
+
+{
+	#category : #movement,
 	#'squeak_changestamp' : 'mad 1/24/2025 15:22'
 }
 SPSolid >> clearPushing [
@@ -154,11 +168,10 @@ SPSolid >> moveTowards: aSymbol [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'mad 1/31/2025 12:54'
+	#'squeak_changestamp' : 'mad 2/1/2025 22:49'
 }
 SPSolid >> moveTowards: aSymbol collidingSolidsDo: aBlock [
-	aSymbol = #bottom ifFalse: [
-		(self pushersTowards at: #bottom) do: [:each | each tryBeCarriedTowards: aSymbol]].
+	self carryTowards: aSymbol.
 	(self solidsTowards: aSymbol) do: aBlock.
 	super moveTowards: aSymbol.
 ]
