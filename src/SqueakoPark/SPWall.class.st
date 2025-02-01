@@ -21,12 +21,19 @@ SPWall >> canBePushed: aPushRequest [
 ]
 
 {
-	#category : #initialization,
-	#'squeak_changestamp' : 'mad 12/5/2024 19:08'
+	#category : #drawing,
+	#'squeak_changestamp' : 'mad 2/1/2025 22:18'
 }
-SPWall >> initialize [
-	super initialize.
-	self color: Color red.
+SPWall >> drawOn: aCanvas [
+	| shortCut longCut left top |
+	shortCut := 3.
+	longCut := 3 * shortCut.
+	left := (self bounds insetBy: 0 @ longCut) withWidth: shortCut.
+	top := (self bounds insetBy: longCut @ 0) withHeight: shortCut.
+	{self bounds insetBy: shortCut.
+	left. left translateBy: (self width - shortCut) @ 0.
+	top. top translateBy: 0 @ (self height - shortCut)}
+		do: [:each | aCanvas fillRectangle: each color: self color].
 ]
 
 {

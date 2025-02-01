@@ -26,6 +26,14 @@ SPCollider >> collidersTowards: aSymbol [
 ]
 
 {
+	#category : #initialization,
+	#'squeak_changestamp' : 'mad 2/1/2025 22:38'
+}
+SPCollider >> defaultColor [
+	^ Color fromString: '#f88856'
+]
+
+{
 	#category : #movement,
 	#'squeak_changestamp' : 'mad 1/23/2025 13:56'
 }
@@ -47,14 +55,6 @@ SPCollider >> game [
 }
 SPCollider >> game: aGame [
 	game := aGame.
-]
-
-{
-	#category : #initialization,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:23'
-}
-SPCollider >> initialize [
-	super initialize.
 ]
 
 {
