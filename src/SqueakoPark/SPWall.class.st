@@ -14,9 +14,9 @@ SPWall >> canBeMovedTowards: aSymbol [
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/23/2025 17:57'
+	#'squeak_changestamp' : 'mad 2/1/2025 22:59'
 }
-SPWall >> canBePushed: aPushRequest [
+SPWall >> canBePushedTowards: aSymbol [
 	^ false
 ]
 

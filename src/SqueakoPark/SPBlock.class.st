@@ -10,16 +10,13 @@ Class {
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/23/2025 14:54'
+	#'squeak_changestamp' : 'mad 2/1/2025 23:01'
 }
-SPBlock >> canBePushed: aPushRequest [
+SPBlock >> canBePushedTowards: aSymbol [
 	self remainingPushDistance > 0 ifFalse: [^ false].
-	(aPushRequest
-		canBePushed: self
-		by: self weight
-		of: (self allPushersTowards: aPushRequest direction))
-			ifFalse: [^ false].
-	^ super canBePushed: aPushRequest
+	((self allPushersTowards: aSymbol) count: #isPlayer)
+		>= self weight ifFalse: [^ false].
+	^ super canBePushedTowards: aSymbol
 ]
 
 {

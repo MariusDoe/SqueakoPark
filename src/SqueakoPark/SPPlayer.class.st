@@ -21,11 +21,11 @@ SPPlayer >> addForces [
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/24/2025 15:28'
+	#'squeak_changestamp' : 'mad 2/1/2025 22:59'
 }
-SPPlayer >> canBePushed: aPushRequest [
-	aPushRequest direction = self inputDirection ifFalse: [^ false].
-	^ super canBePushed: aPushRequest
+SPPlayer >> canBePushedTowards: aSymbol [
+	aSymbol = self inputDirection ifFalse: [^ false].
+	^ super canBePushedTowards: aSymbol
 ]
 
 {

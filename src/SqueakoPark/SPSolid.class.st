@@ -53,10 +53,10 @@ SPSolid >> canBeMovedTowards: aSymbol [
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/31/2025 12:21'
+	#'squeak_changestamp' : 'mad 2/1/2025 22:59'
 }
-SPSolid >> canBePushed: aPushRequest [
-	^ self canPush: aPushRequest
+SPSolid >> canBePushedTowards: aSymbol [
+	^ self canPushTowards: aSymbol
 ]
 
 {
@@ -70,21 +70,11 @@ SPSolid >> canMoveTowards: aSymbol [
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/31/2025 12:21'
-}
-SPSolid >> canPush: aPushRequest [
-	^ (self solidsTowards: aPushRequest direction) allSatisfy: [:each |
-		each canBePushed: aPushRequest]
-]
-
-{
-	#category : #pushing,
-	#'squeak_changestamp' : 'mad 1/31/2025 12:22'
+	#'squeak_changestamp' : 'mad 2/1/2025 23:00'
 }
 SPSolid >> canPushTowards: aSymbol [
-	^ self canPush: (SPPushRequest new
-						direction: aSymbol;
-						yourself)
+	^ (self solidsTowards: aSymbol) allSatisfy: [:each |
+		each canBePushedTowards: aSymbol]
 ]
 
 {
