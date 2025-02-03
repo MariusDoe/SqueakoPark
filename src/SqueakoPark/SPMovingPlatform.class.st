@@ -1,26 +1,77 @@
 Class {
 	#name : #SPMovingPlatform,
 	#superclass : #SPWall,
+	#instVars : [
+		'speed'
+	],
 	#category : #'SqueakoPark-Core'
 }
 
 {
-	#category : #movement,
-	#'squeak_changestamp' : 'mad 1/31/2025 12:49'
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:44'
 }
-SPMovingPlatform >> cannotMoveTowards: aSymbol [
-	| direction velocityTowards |
-	direction := SPDirections vector: aSymbol.
-	velocityTowards := self velocity dotProduct: direction.
-	velocityTowards <= 0 ifTrue: [^ self].
-	((self solidsTowards: aSymbol) anySatisfy: #isWall) ifFalse: [^ self].
-	self velocity: self velocity - (2 * direction * velocityTowards).
+SPMovingPlatform class >> isAbstract [
+	^ self == SPMovingPlatform
+]
+
+{
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:21'
+}
+SPMovingPlatform >> calculateVelocity [
+	| delta |
+	delta := self target center - self center.
+	delta = (0 @ 0) ifTrue: [^ self velocity: delta].
+	self velocity: delta normalized * (delta r clampHigh: self speed).
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:40'
+}
+SPMovingPlatform >> initialize [
+	super initialize.
+	self speed: 5.
+]
+
+{
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:36'
+}
+SPMovingPlatform >> preMovement [
+	self calculateVelocity.
+	super preMovement.
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:07'
+}
+SPMovingPlatform >> speed [
+	^ speed
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:07'
+}
+SPMovingPlatform >> speed: aNumber [
+	speed := aNumber
 ]
 
 {
 	#category : #printing,
-	#'squeak_changestamp' : 'mad 2/3/2025 00:06'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:45'
 }
 SPMovingPlatform >> storedProperties [
-	^ super storedProperties, #('velocity')
+	^ super storedProperties, #('speed')
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:35'
+}
+SPMovingPlatform >> target [
+	self subclassResponsibility.
 ]
