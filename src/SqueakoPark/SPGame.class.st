@@ -2,25 +2,17 @@ Class {
 	#name : #SPGame,
 	#superclass : #Morph,
 	#instVars : [
-		'colliders'
+		'sceneMorphs'
 	],
 	#category : #'SqueakoPark-Core'
 }
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:26'
+	#'squeak_changestamp' : 'mad 2/4/2025 00:00'
 }
 SPGame >> colliders [
-	^ colliders
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:26'
-}
-SPGame >> colliders: anObject [
-	colliders := anObject
+	^ self sceneMorphs select: #isCollider
 ]
 
 {
@@ -69,13 +61,13 @@ SPGame >> gmKeyHandler [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 2/3/2025 00:02'
+	#'squeak_changestamp' : 'mad 2/4/2025 00:00'
 }
 SPGame >> initialize [
 	super initialize.
 	self
 		gmRegisterToKeyHandler;
-		colliders: OrderedCollection new.
+		sceneMorphs: OrderedCollection new.
 ]
 
 {
@@ -96,6 +88,22 @@ SPGame >> preMovement [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/4/2025 00:01'
+}
+SPGame >> sceneMorphs [
+	^ sceneMorphs
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/4/2025 00:01'
+}
+SPGame >> sceneMorphs: aCollection [
+	sceneMorphs := aCollection
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'mad 1/24/2025 15:23'
 }
 SPGame >> solids [
@@ -104,12 +112,12 @@ SPGame >> solids [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 14:22'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:58'
 }
-SPGame >> spawn: aCollider [
-	aCollider game: self.
-	self colliders add: aCollider.
-	self addMorph: aCollider.
+SPGame >> spawn: aSceneMorph [
+	aSceneMorph game: self.
+	self sceneMorphs add: aSceneMorph.
+	self addMorph: aSceneMorph.
 ]
 
 {

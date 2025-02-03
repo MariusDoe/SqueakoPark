@@ -19,7 +19,7 @@ SPLevelEditor >> acceptDroppingMorph: aMorph event: anEvent [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'mad 2/3/2025 01:49'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:52'
 }
 SPLevelEditor >> addButtons [
 	| buttons |
@@ -27,8 +27,10 @@ SPLevelEditor >> addButtons [
 	buttons add: 'Load' -> [self requestLevelNameAndDo: #load:].
 	buttons add: 'Save' -> [self requestLevelNameAndDo: #save:].
 	buttons add: 'Play' -> [self play].
-	(SPCollider allSubclasses reject: #isAbstract) do: [:each |
-		buttons add: (each name allButFirst: 'SP' size) -> [each new openInHand]].
+	((SPSceneMorph allSubclasses
+		reject: #isAbstract)
+		sorted: #name ascending)
+		do: [:each | buttons add: (each name allButFirst: 'SP' size) -> [each new openInHand]].
 	buttons := buttons collect: [:each | PluggableButtonMorph new
 											label: each key;
 											model: each value;
@@ -50,18 +52,10 @@ SPLevelEditor >> addButtons [
 
 {
 	#category : #io,
-	#'squeak_changestamp' : 'mad 2/3/2025 01:52'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:51'
 }
 SPLevelEditor >> clear [
-	self colliders do: #delete.
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 2/3/2025 01:53'
-}
-SPLevelEditor >> colliders [
-	^ self submorphs select: [:each | each isKindOf: SPCollider]
+	self sceneMorphs do: #delete.
 ]
 
 {
@@ -109,7 +103,7 @@ SPLevelEditor >> compileLevelMethod [
 
 {
 	#category : #compiling,
-	#'squeak_changestamp' : 'mad 2/3/2025 01:53'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:51'
 }
 SPLevelEditor >> compileSceneMethod [
 	| stream |
@@ -121,7 +115,7 @@ SPLevelEditor >> compileSceneMethod [
 		store: self extent;
 		nextPut: $.;
 		cr.
-	self colliders do: [:each |
+	self sceneMorphs do: [:each |
 		stream
 			tab;
 			nextPutAll: 'aGame spawn: ';
@@ -141,10 +135,10 @@ SPLevelEditor >> compileTarget [
 
 {
 	#category : #io,
-	#'squeak_changestamp' : 'mad 2/3/2025 02:13'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:55'
 }
 SPLevelEditor >> configure: aMorph [
-	(aMorph isKindOf: SPCollider) ifFalse: [^ self].
+	(aMorph isKindOf: SPSceneMorph) ifFalse: [^ self].
 	aMorph allMorphsDo: [:each | each == aMorph ifFalse: [each wantsHaloFromClick: false]].
 ]
 
@@ -254,6 +248,14 @@ SPLevelEditor >> sceneMethodName [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 23:51'
+}
+SPLevelEditor >> sceneMorphs [
+	^ self submorphs select: [:each | each isKindOf: SPSceneMorph]
+]
+
+{
 	#category : #io,
 	#'squeak_changestamp' : 'mad 2/3/2025 02:13'
 }
@@ -265,8 +267,8 @@ SPLevelEditor >> spawn: aMorph [
 
 {
 	#category : #'dropping/grabbing',
-	#'squeak_changestamp' : 'mad 2/2/2025 23:51'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:55'
 }
 SPLevelEditor >> wantsDroppedMorph: aMorph event: anEvent [
-	^ aMorph isKindOf: SPCollider
+	^ aMorph isKindOf: SPSceneMorph
 ]
