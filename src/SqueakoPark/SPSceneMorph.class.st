@@ -66,6 +66,14 @@ SPSceneMorph >> relativeBounds: aRectangle [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/4/2025 00:21'
+}
+SPSceneMorph >> sceneColor [
+	^ Color fromString: '#f88856'
+]
+
+{
 	#category : #printing,
 	#'squeak_changestamp' : 'mad 2/3/2025 23:43'
 }

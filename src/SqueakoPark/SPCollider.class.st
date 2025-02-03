@@ -48,10 +48,10 @@ SPCollider >> collidingTowards: aSymbol [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'mad 2/1/2025 22:38'
+	#'squeak_changestamp' : 'mad 2/4/2025 00:22'
 }
 SPCollider >> defaultColor [
-	^ Color fromString: '#f88856'
+	^ self sceneColor
 ]
 
 {

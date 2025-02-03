@@ -20,6 +20,14 @@ SPBlock >> canBePushedTowards: aSymbol [
 ]
 
 {
+	#category : #initialization,
+	#'squeak_changestamp' : 'mad 2/4/2025 00:18'
+}
+SPBlock >> defaultColor [
+	^ Color transparent
+]
+
+{
 	#category : #drawing,
 	#'squeak_changestamp' : 'mad 2/1/2025 22:36'
 }
@@ -46,17 +54,34 @@ SPBlock >> drawOn: aCanvas [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'mad 2/2/2025 23:54'
+	#'squeak_changestamp' : 'mad 2/4/2025 00:31'
 }
 SPBlock >> initialize [
 	super initialize.
 	self
-		label: (StringMorph new color: self color; yourself);
-		addMorph: self label;
-		layoutPolicy: TableLayout new;
-		listCentering: #center;
-		wrapCentering: #center;
+		label: (StringMorph new color: self sceneColor; yourself);
+		initializeDrawing;
 		weight: 1.
+]
+
+{
+	#category : #initialization,
+	#'squeak_changestamp' : 'mad 2/4/2025 00:31'
+}
+SPBlock >> initializeDrawing [
+	self
+		layoutPolicy: ProportionalLayout new;
+		addMorph: (Morph new
+						color: Color transparent;
+						layoutPolicy: TableLayout new;
+						listCentering: #center;
+						wrapCentering: #center;
+						addMorph: self label)
+		fullFrame: LayoutFrame fullFrame;
+		addMorph: (SPRoundedRectangle new
+						color: self sceneColor;
+						yourself)
+		fullFrame: LayoutFrame fullFrame.
 ]
 
 {
