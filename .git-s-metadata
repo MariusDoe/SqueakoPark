@@ -1,11 +1,20 @@
 GSMetadata {
 	#version : 1,
 	#mappers : [
+		GSTonelMapper {
+			#version : 1,
+			#package : MCPackage {
+				#name : 'SqueakoPark'
+			},
+			#path : FSAbsolutePath [
+				'src'
+			]
+		},
 		GSImageMapper {
 			#version : 1,
 			#path : FSAbsolutePath [
 				'assets',
-				'picocat.png'
+				'button.png'
 			],
 			#encoding : Class [ #PNGReadWriter ]
 		},
@@ -15,16 +24,15 @@ GSMetadata {
 				'assets',
 				'key.png'
 			],
-			#encoding : @5
+			#encoding : @8
 		},
-		GSTonelMapper {
+		GSImageMapper {
 			#version : 1,
-			#package : MCPackage {
-				#name : 'SqueakoPark'
-			},
 			#path : FSAbsolutePath [
-				'src'
-			]
+				'assets',
+				'picocat.png'
+			],
+			#encoding : @8
 		}
 	],
 	#name : 'SqueakoPark'
