@@ -5,6 +5,14 @@ Class {
 }
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:45'
+}
+SPFallingSolid class >> isAbstract [
+	^ self == SPFallingSolid
+]
+
+{
 	#category : #movement,
 	#'squeak_changestamp' : 'mad 1/24/2025 15:22'
 }

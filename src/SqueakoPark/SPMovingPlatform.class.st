@@ -16,3 +16,11 @@ SPMovingPlatform >> cannotMoveTowards: aSymbol [
 	((self solidsTowards: aSymbol) anySatisfy: #isWall) ifFalse: [^ self].
 	self velocity: self velocity - (2 * direction * velocityTowards).
 ]
+
+{
+	#category : #printing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:06'
+}
+SPMovingPlatform >> storedProperties [
+	^ super storedProperties, #('velocity')
+]

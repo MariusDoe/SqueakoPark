@@ -104,6 +104,14 @@ SPBlock >> remainingPushDistance: aNumber [
 ]
 
 {
+	#category : #printing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:06'
+}
+SPBlock >> storedProperties [
+	^ super storedProperties, #('weight')
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'mad 1/16/2025 18:26'
 }

@@ -11,6 +11,14 @@ Class {
 }
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:45'
+}
+SPSolid class >> isAbstract [
+	^ self == SPSolid
+]
+
+{
 	#category : #physics,
 	#'squeak_changestamp' : 'mad 1/24/2025 15:22'
 }

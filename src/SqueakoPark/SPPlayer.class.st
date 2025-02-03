@@ -294,6 +294,14 @@ SPPlayer >> stepTime [
 ]
 
 {
+	#category : #printing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:06'
+}
+SPPlayer >> storedProperties [
+	^ super storedProperties, #('id')
+]
+
+{
 	#category : #input,
 	#'squeak_changestamp' : 'mad 1/16/2025 18:05'
 }

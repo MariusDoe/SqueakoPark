@@ -8,6 +8,14 @@ Class {
 }
 
 {
+	#category : #testing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:45'
+}
+SPCollider class >> isAbstract [
+	^ self == SPCollider
+]
+
+{
 	#category : #colliders,
 	#'squeak_changestamp' : 'mad 1/23/2025 13:48'
 }
@@ -157,9 +165,57 @@ SPCollider >> preMovement [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:08'
+}
+SPCollider >> relativeBounds [
+	^ self bounds translateBy: self owner position negated
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:08'
+}
+SPCollider >> relativeBounds: aRectangle [
+	self owner
+		ifNil: [self bounds: aRectangle]
+		ifNotNil: [self bounds: (aRectangle translateBy: self owner position)].
+]
+
+{
 	#category : #colliders,
 	#'squeak_changestamp' : 'mad 1/23/2025 13:31'
 }
 SPCollider >> solidsTowards: aSymbol [
 	^ (self collidersTowards: aSymbol) select: #isSolid
+]
+
+{
+	#category : #printing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:06'
+}
+SPCollider >> storeOn: aStream [
+	aStream
+		nextPut: $(;
+		nextPutAll: self class name;
+		nextPutAll: ' new'.
+	self storedProperties do: [:each | | getter setter |
+		getter := each asSymbol.
+		setter := getter asSimpleSetter.
+		self assert: ((self respondsTo: getter) and: [self respondsTo: setter]).
+		aStream
+			space;
+			nextPutAll: setter;
+			space;
+			store: (self perform: getter);
+			nextPut: $;].
+	aStream nextPutAll: ' yourself)'.
+]
+
+{
+	#category : #printing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:06'
+}
+SPCollider >> storedProperties [
+	^ #('relativeBounds')
 ]
