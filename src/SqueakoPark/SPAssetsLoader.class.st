@@ -21,6 +21,24 @@ SPAssetsLoader class >> button [
 ]
 
 {
+	#category : #picocat,
+	#'squeak_changestamp' : 'mad 2/3/2025 22:22'
+}
+SPAssetsLoader class >> doorClosed [
+	<prefetch: #()>
+	^ self loadForm: 'assets/door_closed.png'
+]
+
+{
+	#category : #picocat,
+	#'squeak_changestamp' : 'mad 2/3/2025 22:21'
+}
+SPAssetsLoader class >> doorOpen [
+	<prefetch: #()>
+	^ self loadForm: 'assets/door_open.png'
+]
+
+{
 	#category : #effects,
 	#'squeak_changestamp' : 'mad 2/2/2025 22:55'
 }

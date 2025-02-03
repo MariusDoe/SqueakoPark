@@ -33,6 +33,22 @@ GSMetadata {
 				'picocat.png'
 			],
 			#encoding : @8
+		},
+		GSImageMapper {
+			#version : 1,
+			#path : FSAbsolutePath [
+				'assets',
+				'door_open.png'
+			],
+			#encoding : @8
+		},
+		GSImageMapper {
+			#version : 1,
+			#path : FSAbsolutePath [
+				'assets',
+				'door_closed.png'
+			],
+			#encoding : @8
 		}
 	],
 	#name : 'SqueakoPark'
