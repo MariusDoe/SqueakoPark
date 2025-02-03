@@ -79,10 +79,10 @@ SPLevelEditor >> compile: aString [
 
 {
 	#category : #compiling,
-	#'squeak_changestamp' : 'mad 2/2/2025 23:39'
+	#'squeak_changestamp' : 'mad 2/3/2025 23:27'
 }
 SPLevelEditor >> compileCustomizeMethod [
-	(self compileTarget respondsTo: self customizeMethodName) ifTrue: [^ self].
+	(self compileTarget respondsTo: self customizeMethodName asSymbol) ifTrue: [^ self].
 	self compile: ('{1} aGame
 	"room for customization of the level"' format: {self customizeMethodName}).
 ]
