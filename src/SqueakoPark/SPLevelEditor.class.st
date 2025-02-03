@@ -8,6 +8,16 @@ Class {
 }
 
 {
+	#category : #'dropping/grabbing',
+	#'squeak_changestamp' : 'mad 2/3/2025 02:14'
+}
+SPLevelEditor >> acceptDroppingMorph: aMorph event: anEvent [
+	self
+		addMorph: aMorph;
+		configure: aMorph.
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'mad 2/3/2025 01:49'
 }
@@ -36,15 +46,6 @@ SPLevelEditor >> addButtons [
 	self
 		addMorph: buttons
 		fullFrame: (LayoutFrame fractions: (0 @ 0 corner: 1 @ 0) offsets: (0 @ (buttons height + 5) negated corner: 0 @ -5)).
-]
-
-{
-	#category : #io,
-	#'squeak_changestamp' : 'mad 2/3/2025 01:41'
-}
-SPLevelEditor >> addMorph: aMorph [
-	super addMorph: aMorph.
-	aMorph allMorphsDo: [:each | each == aMorph ifFalse: [each wantsHaloFromClick: false]].
 ]
 
 {
@@ -136,6 +137,15 @@ SPLevelEditor >> compileSceneMethod [
 }
 SPLevelEditor >> compileTarget [
 	^ SPGame
+]
+
+{
+	#category : #io,
+	#'squeak_changestamp' : 'mad 2/3/2025 02:13'
+}
+SPLevelEditor >> configure: aMorph [
+	(aMorph isKindOf: SPCollider) ifFalse: [^ self].
+	aMorph allMorphsDo: [:each | each == aMorph ifFalse: [each wantsHaloFromClick: false]].
 ]
 
 {
@@ -245,10 +255,11 @@ SPLevelEditor >> sceneMethodName [
 
 {
 	#category : #io,
-	#'squeak_changestamp' : 'mad 2/3/2025 01:40'
+	#'squeak_changestamp' : 'mad 2/3/2025 02:13'
 }
 SPLevelEditor >> spawn: aMorph [
 	self addMorph: aMorph.
+	self configure: aMorph.
 	aMorph position: aMorph position + self position.
 ]
 
