@@ -34,6 +34,22 @@ SPCollider >> collidersTowards: aSymbol [
 ]
 
 {
+	#category : #colliders,
+	#'squeak_changestamp' : 'mad 2/3/2025 22:51'
+}
+SPCollider >> collidesWith: aCollider [
+	^ aCollider isSolid
+]
+
+{
+	#category : #colliders,
+	#'squeak_changestamp' : 'mad 2/3/2025 22:51'
+}
+SPCollider >> collidingTowards: aSymbol [
+	^ (self collidersTowards: aSymbol) select: [:each | self collidesWith: each]
+]
+
+{
 	#category : #initialization,
 	#'squeak_changestamp' : 'mad 2/1/2025 22:38'
 }
@@ -180,14 +196,6 @@ SPCollider >> relativeBounds: aRectangle [
 	self owner
 		ifNil: [self bounds: aRectangle]
 		ifNotNil: [self bounds: (aRectangle translateBy: self owner position)].
-]
-
-{
-	#category : #colliders,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:31'
-}
-SPCollider >> solidsTowards: aSymbol [
-	^ (self collidersTowards: aSymbol) select: #isSolid
 ]
 
 {

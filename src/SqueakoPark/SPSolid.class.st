@@ -45,10 +45,10 @@ SPSolid >> allPushersTowards: aSymbol [
 
 {
 	#category : #carrying,
-	#'squeak_changestamp' : 'mad 1/31/2025 12:06'
+	#'squeak_changestamp' : 'mad 2/3/2025 22:51'
 }
 SPSolid >> canBeCarriedTowards: aSymbol [
-	^ (self solidsTowards: aSymbol) isEmpty
+	^ (self collidingTowards: aSymbol) isEmpty
 ]
 
 {
@@ -69,19 +69,19 @@ SPSolid >> canBePushedTowards: aSymbol [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'mad 1/31/2025 12:11'
+	#'squeak_changestamp' : 'mad 2/3/2025 22:51'
 }
 SPSolid >> canMoveTowards: aSymbol [
-	^ (self solidsTowards: aSymbol) allSatisfy: [:each |
+	^ (self collidingTowards: aSymbol) allSatisfy: [:each |
 		each canBeMovedTowards: aSymbol]
 ]
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 2/1/2025 23:00'
+	#'squeak_changestamp' : 'mad 2/3/2025 22:51'
 }
 SPSolid >> canPushTowards: aSymbol [
-	^ (self solidsTowards: aSymbol) allSatisfy: [:each |
+	^ (self collidingTowards: aSymbol) allSatisfy: [:each |
 		each canBePushedTowards: aSymbol]
 ]
 
@@ -117,6 +117,18 @@ SPSolid >> clearPushing [
 		pushed
 			do: [:each | (each pushersTowards at: direction) remove: self ifAbsent: []];
 			removeAll].
+]
+
+{
+	#category : #colliders,
+	#'squeak_changestamp' : 'mad 2/3/2025 22:51'
+}
+SPSolid >> collidingTowards: aSymbol [
+	| solids |
+	solids := super collidingTowards: aSymbol.
+	(self pushing at: aSymbol) addAll: solids.
+	solids do: [:each | (each pushersTowards at: aSymbol) add: self].
+	^ solids
 ]
 
 {
@@ -166,11 +178,11 @@ SPSolid >> moveTowards: aSymbol [
 
 {
 	#category : #movement,
-	#'squeak_changestamp' : 'mad 2/1/2025 22:49'
+	#'squeak_changestamp' : 'mad 2/3/2025 22:51'
 }
 SPSolid >> moveTowards: aSymbol collidingSolidsDo: aBlock [
 	self carryTowards: aSymbol.
-	(self solidsTowards: aSymbol) do: aBlock.
+	(self collidingTowards: aSymbol) do: aBlock.
 	super moveTowards: aSymbol.
 ]
 
@@ -237,18 +249,6 @@ SPSolid >> remainingMovement [
 }
 SPSolid >> remainingMovement: aPoint [
 	remainingMovement := aPoint
-]
-
-{
-	#category : #colliders,
-	#'squeak_changestamp' : 'mad 1/24/2025 15:25'
-}
-SPSolid >> solidsTowards: aSymbol [
-	| solids |
-	solids := super solidsTowards: aSymbol.
-	(self pushing at: aSymbol) addAll: solids.
-	solids do: [:each | (each pushersTowards at: aSymbol) add: self].
-	^ solids
 ]
 
 {

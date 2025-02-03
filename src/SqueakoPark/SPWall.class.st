@@ -21,6 +21,14 @@ SPWall >> canBePushedTowards: aSymbol [
 ]
 
 {
+	#category : #colliders,
+	#'squeak_changestamp' : 'mad 2/3/2025 22:52'
+}
+SPWall >> collidesWith: aCollider [
+	^ (super collidesWith: aCollider) and: [aCollider isWall not]
+]
+
+{
 	#category : #drawing,
 	#'squeak_changestamp' : 'mad 2/1/2025 22:18'
 }
