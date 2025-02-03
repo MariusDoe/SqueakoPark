@@ -13,6 +13,14 @@ SPAssetsLoader class >> assetLoader [
 ]
 
 {
+	#category : #picocat,
+	#'squeak_changestamp' : 'mad 2/2/2025 22:42'
+}
+SPAssetsLoader class >> button [
+	^ self loadForm: 'assets/button.png'
+]
+
+{
 	#category : #effects,
 	#'squeak_changestamp' : 'mad 2/2/2025 22:55'
 }
@@ -139,11 +147,37 @@ SPAssetsLoader class >> picocatWithHue: aNumber [
 ]
 
 {
+	#category : #picocat,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:20'
+}
+SPAssetsLoader class >> pressedButton [
+	<prefetch: #()>
+	^ self sliceButtonAt: 2
+]
+
+{
+	#category : #picocat,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:20'
+}
+SPAssetsLoader class >> releasedButton [
+	<prefetch: #()>
+	^ self sliceButtonAt: 1
+]
+
+{
 	#category : #slicing,
 	#'squeak_changestamp' : 'mad 12/30/2024 23:25'
 }
 SPAssetsLoader class >> slice: aForm tileSize: sizePoint gap: gapPoint at: indexPoint [
 	^ aForm contentsOfArea: ((sizePoint + gapPoint) * (indexPoint - 1) extent: sizePoint)
+]
+
+{
+	#category : #picocat,
+	#'squeak_changestamp' : 'mad 2/3/2025 01:31'
+}
+SPAssetsLoader class >> sliceButtonAt: aNumber [
+	^ (self slice: self button tileSize: 16 @ 9 gap: 0 @ 0 at: aNumber @ 1) magnifyBy: 3
 ]
 
 {
