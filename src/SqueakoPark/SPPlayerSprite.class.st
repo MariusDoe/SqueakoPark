@@ -3,7 +3,6 @@ Class {
 	#superclass : #ImageMorph,
 	#instVars : [
 		'myPlayer',
-		'hue',
 		'isJumping',
 		'isPushing',
 		'direction',
@@ -112,18 +111,10 @@ SPPlayerSprite >> facing: aSymbol [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/31/2024 00:05'
+	#'squeak_changestamp' : 'mad 2/2/2025 23:58'
 }
 SPPlayerSprite >> hue [
-	^ hue
-]
-
-{
-	#category : #accessing,
-	#'squeak_changestamp' : 'mad 12/31/2024 00:05'
-}
-SPPlayerSprite >> hue: aNumber [
-	hue := aNumber
+	^ self myPlayer hue
 ]
 
 {

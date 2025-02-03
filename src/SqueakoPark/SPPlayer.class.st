@@ -2,13 +2,21 @@ Class {
 	#name : #SPPlayer,
 	#superclass : #SPFallingSolid,
 	#instVars : [
+		'id',
 		'holding',
-		'keyMap',
 		'sprite',
 		'inputDirection'
 	],
 	#category : #'SqueakoPark-Core'
 }
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:28'
+}
+SPPlayer class >> hues [
+	^ {0. 180}
+]
 
 {
 	#category : #physics,
@@ -46,6 +54,14 @@ SPPlayer >> currentVelocity [
 ]
 
 {
+	#category : #initialization,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:02'
+}
+SPPlayer >> defaultColor [
+	^ Color transparent
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'mad 1/23/2025 14:15'
 }
@@ -78,14 +94,52 @@ SPPlayer >> holding: aSet [
 ]
 
 {
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:01'
+}
+SPPlayer >> hue [
+	^ self hues at: self id
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:28'
+}
+SPPlayer >> hues [
+	^ self class hues
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/2/2025 23:59'
+}
+SPPlayer >> id [
+	^ id
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 00:00'
+}
+SPPlayer >> id: aNumber [
+	id := aNumber
+]
+
+{
 	#category : #initialization,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:09'
+	#'squeak_changestamp' : 'mad 2/3/2025 01:39'
 }
 SPPlayer >> initialize [
 	super initialize.
 	self
-		color: Color transparent;
-		holding: Set new.
+		id: 1;
+		holding: Set new;
+		sprite: (SPPlayerSprite new
+					myPlayer: self;
+					updateImage;
+					yourself);
+		extent: self sprite extent;
+		addMorphCentered: self sprite.
 ]
 
 {
@@ -174,18 +228,18 @@ SPPlayer >> jumpVelocity [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
+	#'squeak_changestamp' : 'mad 2/3/2025 00:02'
 }
 SPPlayer >> keyMap [
-	^ keyMap
+	^ self keyMaps at: self id
 ]
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 17:29'
+	#'squeak_changestamp' : 'mad 2/3/2025 00:01'
 }
-SPPlayer >> keyMap: anObject [
-	keyMap := anObject
+SPPlayer >> keyMaps [
+	^ {SPKeyMap wasd. SPKeyMap arrowKeys}
 ]
 
 {
@@ -194,21 +248,6 @@ SPPlayer >> keyMap: anObject [
 }
 SPPlayer >> leftKey [
 	^ self keyMap left
-]
-
-{
-	#category : #initialization,
-	#'squeak_changestamp' : 'mad 12/31/2024 00:38'
-}
-SPPlayer >> loadSprite: angleNumber [
-	self
-		sprite: (SPPlayerSprite new
-					myPlayer: self;
-					hue: angleNumber;
-					updateImage;
-					yourself);
-		extent: self sprite extent;
-		addMorphCentered: self sprite.
 ]
 
 {
