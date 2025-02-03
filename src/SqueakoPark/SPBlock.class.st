@@ -3,19 +3,19 @@ Class {
 	#superclass : #SPFallingSolid,
 	#instVars : [
 		'weight',
-		'remainingPushDistance'
+		'remainingPushDistance',
+		'label'
 	],
 	#category : #'SqueakoPark-Core'
 }
 
 {
 	#category : #pushing,
-	#'squeak_changestamp' : 'mad 2/1/2025 23:01'
+	#'squeak_changestamp' : 'mad 2/1/2025 23:21'
 }
 SPBlock >> canBePushedTowards: aSymbol [
 	self remainingPushDistance > 0 ifFalse: [^ false].
-	((self allPushersTowards: aSymbol) count: #isPlayer)
-		>= self weight ifFalse: [^ false].
+	(self playerCountPushingTowards: aSymbol) >= self weight ifFalse: [^ false].
 	^ super canBePushedTowards: aSymbol
 ]
 
@@ -46,11 +46,17 @@ SPBlock >> drawOn: aCanvas [
 
 {
 	#category : #initialization,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:19'
+	#'squeak_changestamp' : 'mad 2/2/2025 23:54'
 }
 SPBlock >> initialize [
 	super initialize.
-	self weight: 1.
+	self
+		label: (StringMorph new color: self color; yourself);
+		addMorph: self label;
+		layoutPolicy: TableLayout new;
+		listCentering: #center;
+		wrapCentering: #center;
+		weight: 1.
 ]
 
 {
@@ -59,6 +65,49 @@ SPBlock >> initialize [
 }
 SPBlock >> isBlock [
 	^ true
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/1/2025 23:26'
+}
+SPBlock >> label [
+	^ label
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/3/2025 02:04'
+}
+SPBlock >> label: aStringMorph [
+	label := aStringMorph
+]
+
+{
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 2/1/2025 23:23'
+}
+SPBlock >> missingPushCount [
+	| delta |
+	delta := (self playerCountPushingTowards: #right) - (self playerCountPushingTowards: #left).
+	^ self weight - delta abs clampLow: 0
+]
+
+{
+	#category : #pushing,
+	#'squeak_changestamp' : 'mad 2/1/2025 23:22'
+}
+SPBlock >> playerCountPushingTowards: aSymbol [
+	^ (self allPushersTowards: aSymbol) count: #isPlayer
+]
+
+{
+	#category : #movement,
+	#'squeak_changestamp' : 'mad 2/1/2025 23:22'
+}
+SPBlock >> postMovement [
+	super postMovement.
+	self label contents: self missingPushCount asString.
 ]
 
 {
@@ -121,8 +170,9 @@ SPBlock >> weight [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/16/2025 18:27'
+	#'squeak_changestamp' : 'mad 2/2/2025 23:54'
 }
 SPBlock >> weight: aNumber [
-	weight := aNumber
+	weight := aNumber.
+	self label contents: self weight asString.
 ]
