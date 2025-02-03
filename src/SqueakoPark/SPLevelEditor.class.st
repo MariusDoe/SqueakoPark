@@ -218,14 +218,14 @@ SPLevelEditor >> play [
 
 {
 	#category : #io,
-	#'squeak_changestamp' : 'mad 2/3/2025 01:50'
+	#'squeak_changestamp' : 'mad 2/3/2025 22:25'
 }
 SPLevelEditor >> requestLevelNameAndDo: aBlock [
 	| response |
 	response := UIManager default
 					request: 'Level name:'
 					initialAnswer: self levelName.
-	response ifEmpty: [^ self].
+	response isEmptyOrNil ifTrue: [^ self].
 	aBlock value: self value: response.
 ]
 
