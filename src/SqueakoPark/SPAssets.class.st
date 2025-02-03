@@ -52,17 +52,18 @@ SPAssets class >> currentCacheInvariant: anObject [
 
 {
 	#category : #'error handling',
-	#'squeak_changestamp' : 'mad 2/3/2025 01:27'
+	#'squeak_changestamp' : 'mad 2/3/2025 02:11'
 }
 SPAssets class >> doesNotUnderstand: aMessage [
+	| method |
 	(SPAssetsLoader respondsTo: aMessage selector)
 		ifFalse: [^ super doesNotUnderstand: aMessage].
 	self checkCacheUpToDate.
-	^ (self cache
-		at: (SPAssetsLoader class lookupSelector: aMessage selector)
-		ifAbsentPut: [Dictionary new])
-			at: aMessage arguments asArray
-			ifAbsentPut: [aMessage sendTo: SPAssetsLoader]
+	method := SPAssetsLoader class lookupSelector: aMessage selector.
+	self assert: method notNil.
+	^ (self cache at: method ifAbsentPut: [Dictionary new])
+		at: aMessage arguments asArray
+		ifAbsentPut: [method valueWithReceiver: self arguments: aMessage arguments]
 ]
 
 {
