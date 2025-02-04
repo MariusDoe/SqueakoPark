@@ -8,6 +8,16 @@ Class {
 }
 
 {
+	#category : #'instance creation',
+	#'squeak_changestamp' : 'mad 2/4/2025 02:10'
+}
+SPGameScroller class >> on: aGame [
+	^ self new
+		game: aGame;
+		yourself
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'mad 2/4/2025 00:52'
 }

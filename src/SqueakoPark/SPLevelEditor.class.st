@@ -89,7 +89,7 @@ SPLevelEditor >> compileCustomizeMethod [
 
 {
 	#category : #compiling,
-	#'squeak_changestamp' : 'mad 2/2/2025 23:36'
+	#'squeak_changestamp' : 'mad 2/4/2025 02:11'
 }
 SPLevelEditor >> compileLevelMethod [
 	self compile: ('{1}
@@ -98,7 +98,7 @@ SPLevelEditor >> compileLevelMethod [
 	self
 		{2} game;
 		{3} game.
-	^ game' format: {self levelMethodName. self sceneMethodName. self customizeMethodName})
+	^ SPGameScroller on: game' format: {self levelMethodName. self sceneMethodName. self customizeMethodName})
 ]
 
 {

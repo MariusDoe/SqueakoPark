@@ -9,7 +9,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'mad 2/4/2025 02:06'
+	#'squeak_changestamp' : 'mad 2/4/2025 02:12'
 }
 SPGame class >> level1strich1 [
 	| game |
@@ -17,7 +17,7 @@ SPGame class >> level1strich1 [
 	self
 		level1strich1Scene: game;
 		level1strich1Customize: game.
-	^ game
+	^ SPGameScroller on: game
 ]
 
 {
@@ -57,7 +57,7 @@ SPGame class >> level1strich1Scene: aGame [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'OB 2/4/2025 01:28'
+	#'squeak_changestamp' : 'mad 2/4/2025 02:11'
 }
 SPGame class >> level1strich2 [
 	| game |
@@ -65,7 +65,7 @@ SPGame class >> level1strich2 [
 	self
 		level1strich2Scene: game;
 		level1strich2Customize: game.
-	^ game
+	^ SPGameScroller on: game
 ]
 
 {
