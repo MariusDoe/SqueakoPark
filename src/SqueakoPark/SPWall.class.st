@@ -5,6 +5,14 @@ Class {
 }
 
 {
+	#category : #carrying,
+	#'squeak_changestamp' : 'mad 2/4/2025 01:12'
+}
+SPWall >> canBeCarriedTowards: aSymbol [
+	^ false
+]
+
+{
 	#category : #pushing,
 	#'squeak_changestamp' : 'mad 1/31/2025 12:11'
 }
