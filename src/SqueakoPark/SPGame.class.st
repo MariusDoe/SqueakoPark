@@ -72,6 +72,14 @@ SPGame >> initialize [
 
 {
 	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/4/2025 00:49'
+}
+SPGame >> players [
+	^ self sceneMorphs select: #isPlayer
+]
+
+{
+	#category : #accessing,
 	#'squeak_changestamp' : 'mad 1/23/2025 14:21'
 }
 SPGame >> postMovement [
@@ -122,10 +130,12 @@ SPGame >> spawn: aSceneMorph [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 1/23/2025 13:02'
+	#'squeak_changestamp' : 'mad 2/4/2025 01:40'
 }
 SPGame >> step [
-	self doPhysics.
+	self
+		doPhysics;
+		triggerEvent: #scrollIntoView.
 ]
 
 {
@@ -134,4 +144,15 @@ SPGame >> step [
 }
 SPGame >> stepTime [
 	^ 20
+]
+
+{
+	#category : #accessing,
+	#'squeak_changestamp' : 'mad 2/4/2025 01:48'
+}
+SPGame >> viewRectangle [
+	^ ((self players
+		collect: #bounds)
+		reduce: #merge:)
+		outsetBy: 100
 ]
