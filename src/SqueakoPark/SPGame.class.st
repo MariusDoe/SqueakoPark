@@ -72,6 +72,30 @@ SPGame >> initialize [
 ]
 
 {
+	#category : #'event handling',
+	#'squeak_changestamp' : 'mad 2/4/2025 01:47'
+}
+SPGame >> mouseDown: anEvent [
+	"do nothing to prevent GMKeyHandler from throwing an MNU"
+]
+
+{
+	#category : #'event handling',
+	#'squeak_changestamp' : 'mad 2/4/2025 01:47'
+}
+SPGame >> mouseMove: anEvent [
+	"do nothing to prevent GMKeyHandler from throwing an MNU"
+]
+
+{
+	#category : #'event handling',
+	#'squeak_changestamp' : 'mad 2/4/2025 01:47'
+}
+SPGame >> mouseUp: anEvent [
+	"do nothing to prevent GMKeyHandler from throwing an MNU"
+]
+
+{
 	#category : #accessing,
 	#'squeak_changestamp' : 'mad 2/4/2025 00:49'
 }
