@@ -9,7 +9,7 @@ Class {
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'OB 2/4/2025 01:11'
+	#'squeak_changestamp' : 'mad 2/4/2025 02:06'
 }
 SPGame class >> level1strich1 [
 	| game |
@@ -22,35 +22,36 @@ SPGame class >> level1strich1 [
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'OB 2/4/2025 00:55'
+	#'squeak_changestamp' : 'mad 2/4/2025 02:02'
 }
 SPGame class >> level1strich1Customize: aGame [
-	"room for customization of the level"
+	(aGame deepSubpartNamed: 'button') onPressed: [
+		(aGame deepSubpartNamed: 'platform') speed: 5].
 ]
 
 {
 	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'OB 2/4/2025 01:11'
+	#'squeak_changestamp' : 'mad 2/4/2025 02:07'
 }
 SPGame class >> level1strich1Scene: aGame [
 	aGame extent: (3368@653).
-	aGame spawn: (SPMarker new relativeBounds: (2786@446 corner: 2836@486); knownName: 'unten'; yourself).
-	aGame spawn: (SPMarker new relativeBounds: (2782@191 corner: 2832@231); knownName: 'oben'; yourself).
-	aGame spawn: (SPWall new relativeBounds: (1450@513 corner: 1647@556); yourself).
-	aGame spawn: (SPWeightedPlatform new relativeBounds: (2635@459 corner: 2987@475); speed: 5; weight: 2; originName: 'unten'; goalName: 'oben'; yourself).
 	aGame spawn: (SPDoor new relativeBounds: (3162@17 corner: 3354@203); yourself).
-	aGame spawn: (SPWall new relativeBounds: (2991@204 corner: 3368@609); yourself).
-	aGame spawn: (SPSinglePressButton new relativeBounds: (2225@508 corner: 2273@535); yourself).
-	aGame spawn: (SPKey new relativeBounds: (2429@10 corner: 2481@118); yourself).
-	aGame spawn: (SPWall new relativeBounds: (2129@535 corner: 3369@652); yourself).
-	aGame spawn: (SPCyclingPlatform new relativeBounds: (1787@535 corner: 2153@554); speed: 5; targetNames: #(); yourself).
-	aGame spawn: (SPWall new relativeBounds: (1207@326 corner: 1356@457); yourself).
-	aGame spawn: (SPWall new relativeBounds: (1075@447 corner: 1355@554); yourself).
-	aGame spawn: (SPPlayer new relativeBounds: (242@450 corner: 322@546); id: 2; yourself).
-	aGame spawn: (SPPlayer new relativeBounds: (104@451 corner: 184@547); id: 1; yourself).
-	aGame spawn: (SPWall new relativeBounds: (843@547 corner: 1354@655); yourself).
-	aGame spawn: (SPWall new relativeBounds: (-12@6 corner: 49@581); yourself).
+	aGame spawn: (SPMarker new relativeBounds: (1571@527 corner: 1621@567); knownName: 'gap'; yourself).
 	aGame spawn: (SPWall new relativeBounds: (-11@550 corner: 664@664); yourself).
+	aGame spawn: (SPWall new relativeBounds: (-12@6 corner: 49@581); yourself).
+	aGame spawn: (SPWall new relativeBounds: (843@547 corner: 1354@655); yourself).
+	aGame spawn: (SPPlayer new relativeBounds: (104@451 corner: 184@547); id: 1; yourself).
+	aGame spawn: (SPPlayer new relativeBounds: (242@450 corner: 322@546); id: 2; yourself).
+	aGame spawn: (SPWall new relativeBounds: (1075@447 corner: 1355@554); yourself).
+	aGame spawn: (SPWall new relativeBounds: (1207@326 corner: 1356@457); yourself).
+	aGame spawn: (SPCyclingPlatform new relativeBounds: (1787@535 corner: 2507@559); knownName: 'platform'; speed: 0; targetNames: #('gap'); yourself).
+	aGame spawn: (SPWall new relativeBounds: (1841@535 corner: 3389@654); yourself).
+	aGame spawn: (SPKey new relativeBounds: (2429@10 corner: 2481@118); yourself).
+	aGame spawn: (SPSinglePressButton new relativeBounds: (1989@508 corner: 2037@535); knownName: 'button'; yourself).
+	aGame spawn: (SPWall new relativeBounds: (2991@204 corner: 3368@609); yourself).
+	aGame spawn: (SPWeightedPlatform new relativeBounds: (2635@459 corner: 2987@475); speed: 5; weight: 2; originName: 'unten'; goalName: 'oben'; yourself).
+	aGame spawn: (SPMarker new relativeBounds: (2782@191 corner: 2832@231); knownName: 'oben'; yourself).
+	aGame spawn: (SPMarker new relativeBounds: (2786@446 corner: 2836@486); knownName: 'unten'; yourself).
 
 ]
 
