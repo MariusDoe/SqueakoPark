@@ -61,11 +61,12 @@ SPGame >> gmKeyHandler [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 2/4/2025 00:00'
+	#'squeak_changestamp' : 'mad 2/4/2025 01:50'
 }
 SPGame >> initialize [
 	super initialize.
 	self
+		clipSubmorphs: true;
 		gmRegisterToKeyHandler;
 		sceneMorphs: OrderedCollection new.
 ]
