@@ -266,11 +266,11 @@ SPGame >> stepTime [
 
 {
 	#category : #accessing,
-	#'squeak_changestamp' : 'mad 2/4/2025 01:48'
+	#'squeak_changestamp' : 'mad 2/4/2025 01:55'
 }
 SPGame >> viewRectangle [
 	^ ((self players
 		collect: #bounds)
 		reduce: #merge:)
-		outsetBy: 100
+		outsetBy: 300 px
 ]
