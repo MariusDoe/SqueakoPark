@@ -101,49 +101,6 @@ SPGame class >> level1strich2Scene: aGame [
 ]
 
 {
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'OB 2/4/2025 01:23'
-}
-SPGame class >> levelnil [
-	| game |
-	game := self new.
-	self
-		levelnilScene: game;
-		levelnilCustomize: game.
-	^ game
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'OB 2/4/2025 01:19'
-}
-SPGame class >> levelnilCustomize: aGame [
-	"room for customization of the level"
-]
-
-{
-	#category : #'as yet unclassified',
-	#'squeak_changestamp' : 'OB 2/4/2025 01:23'
-}
-SPGame class >> levelnilScene: aGame [
-	aGame extent: (2981@837).
-	aGame spawn: (SPBlock new relativeBounds: (2294@241 corner: 2533@467); weight: 1; yourself).
-	aGame spawn: (SPWall new relativeBounds: (1682@345 corner: 1855@490); yourself).
-	aGame spawn: (SPWall new relativeBounds: (1490@237 corner: 1694@491); yourself).
-	aGame spawn: (SPWall new relativeBounds: (1489@472 corner: 2481@597); yourself).
-	aGame spawn: (SPWall new relativeBounds: (1396@771 corner: 1476@811); yourself).
-	aGame spawn: (SPBlock new relativeBounds: (783@28 corner: 846@462); weight: 2; yourself).
-	aGame spawn: (SPKey new relativeBounds: (188@49 corner: 240@157); yourself).
-	aGame spawn: (SPBlock new relativeBounds: (323@36 corner: 382@465); weight: 1; yourself).
-	aGame spawn: (SPWall new relativeBounds: (1@ -17 corner: 2427@21); yourself).
-	aGame spawn: (SPWall new relativeBounds: (0@5 corner: 67@493); yourself).
-	aGame spawn: (SPWall new relativeBounds: (0@472 corner: 1386@598); yourself).
-	aGame spawn: (SPPlayer new relativeBounds: (642@359 corner: 722@455); id: 2; yourself).
-	aGame spawn: (SPPlayer new relativeBounds: (480@356 corner: 560@452); id: 1; yourself).
-
-]
-
-{
 	#category : #accessing,
 	#'squeak_changestamp' : 'mad 2/4/2025 00:00'
 }
